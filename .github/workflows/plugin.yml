@@ -1,0 +1,49 @@
+name: Plugin
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-plugin:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Fetch commits from base branch
+        run: git fetch origin ${{ github.event.before || github.base_ref || 'main' }}:${{ github.event.before || github.base_ref || 'main' }}
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+      - name: Install Node 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('docs/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Yarn install and build
+        run: yarn install --frozen-lockfile
+      - name: Check if source is built
+        run: |
+          if [[ ! -z $(git status --porcelain ./plugin/build) ]]
+          then
+            echo "Please run 'yarn build' or 'yarn rebuild' and commit changes to './plugin/build' directory"
+            exit 1
+          fi
+      - name: Lint
+        run: yarn lint --max-warnings 0
+      - name: Run tests
+        run: yarn test

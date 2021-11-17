@@ -1,0 +1,40 @@
+{
+  "name": "with-rn-intercom",
+  "version": "0.0.1",
+  "description": "An Expo config plugin for painless setup of `react-native-firebase`",
+  "repository": "https://github.com/cmaycumber/with-rn-intercom",
+  "author": "Chadwick Maycumber <cmaycumber@withhorizons.com> (https://github.com/cmaycumber)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cmaycumber/with-rn-intercom/issues"
+  },
+  "homepage": "https://github.com/cmaycumber/with-rn-intercom#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "app.plugin.js",
+    "plugin/build"
+  ],
+  "private": false,
+  "main": "app.plugin.js",
+  "scripts": {
+    "build": "expo-module build plugin",
+    "clean": "expo-module clean plugin",
+    "rebuild": "yarn clean && EXPO_NONINTERACTIVE=1 yarn build",
+    "lint": "expo-module lint plugin",
+    "test": "expo-module test plugin",
+    "prepare": "yarn rebuild",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
+  },
+  "dependencies": {
+    "@expo/config-plugins": "^3.0.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "eslint": "^7.26.0",
+    "expo-module-scripts": "^2.0.0",
+    "prettier": "^2.3.0"
+  }
+}
