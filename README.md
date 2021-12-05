@@ -1,4 +1,4 @@
-# Expo with-`react-native-firebase`
+# Expo Config Plugin `react-native-intercom`
 
 An [Expo config plugin](https://docs.expo.io/guides/config-plugins) for easily setting up [React Native Intercom](https://github.com/intercom/intercom-react-native)
 
@@ -13,24 +13,24 @@ An [Expo config plugin](https://docs.expo.io/guides/config-plugins) for easily s
 #### With `expo install`
 
 ```
-expo install with-rn-intercom
+expo install config-plugin-react-native-intercom
 ```
 
 #### Without `expo install`
 
 ```sh
 # using yarn
-yarn add with-rn-intercom
+yarn add config-plugin-react-native-intercom
 
 # using npm
-npm install with-rn-intercom
+npm install config-plugin-react-native-intercom
 ```
 
 Open your `app.json` and update your `plugins` section (`expo install` would do it for you):
 
 ```json
 {
-  "plugins": ["with-rn-intercom"]
+  "plugins": ["config-plugin-react-native-intercom"]
 }
 ```
 
@@ -42,9 +42,11 @@ The plugin needs your intercom api key so that it can communicate with the inter
 {
   "plugins": [
     [
-      "with-rn-intercom",
+      "config-plugin-react-native-intercom",
       {
-        "apiKey": "<your-api-key>"
+        "iosApiKey": "<your-api-key>",
+        "androidApiKey": "<your-api-key>",
+        "appId": "<your-app-id>
       }
     ]
   ]
@@ -60,7 +62,7 @@ The plugin needs your intercom api key so that it can communicate with the inter
 {
   "plugins": [
     [
-      "with-rn-intercom",
+      "config-plugin-react-native-intercom",
       {
         //...
         "iosPhotoUsageDescription": "Upload to support center"
@@ -90,6 +92,8 @@ Please make sure to run `yarn build`/`yarn rebuild` to update the `build` direct
 - _the Expo team_
 
 - [@barthap](https://github.com/cmaycumber) - <https://github.com/cmaycumber/with-rn-firebase>
+
+- <https://github.com/expo/config-plugins>
 
 ## License
 
