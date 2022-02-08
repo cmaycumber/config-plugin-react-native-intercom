@@ -9,7 +9,7 @@ import {
   withMainApplication,
   withAndroidManifest,
 } from "@expo/config-plugins";
-import fs from "fs/promises";
+import fs = require("fs");
 
 const checkProjectBuildGradle = ({ contents }: { contents: string }) => {
   const minSdkVersion = parseInt(
@@ -171,7 +171,7 @@ export const withIntercomAppDelegate: ConfigPlugin<{
       const fileInfo = IOSConfig.Paths.getAppDelegate(
         config.modRequest.projectRoot
       );
-      let contents = await fs.readFile(fileInfo.path, "utf-8");
+      let contents = fs.readFileSync(fileInfo.path, "utf-8");
       if (fileInfo.language === "objc") {
         contents = modifyObjcAppDelegate({ contents, apiKey, appId });
       } else {
@@ -179,7 +179,7 @@ export const withIntercomAppDelegate: ConfigPlugin<{
           `Cannot add Intercom code to AppDelegate of language "${fileInfo.language}"`
         );
       }
-      await fs.writeFile(fileInfo.path, contents);
+      fs.writeFileSync(fileInfo.path, contents);
       return config;
     },
   ]);
