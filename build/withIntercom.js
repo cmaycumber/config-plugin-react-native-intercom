@@ -1,11 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withIntercomInfoPlist = exports.withIntercomAppDelegate = exports.modifyObjcAppDelegate = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
-const promises_1 = __importDefault(require("fs/promises"));
+const fs = require("fs");
 const checkProjectBuildGradle = ({ contents }) => {
     var _a, _b, _c, _d;
     const minSdkVersion = parseInt((_b = (_a = contents.match(/minSdkVersion\s*=\s*(.*)/)) === null || _a === void 0 ? void 0 : _a[1]) !== null && _b !== void 0 ? _b : "-1", 10);
@@ -91,14 +88,14 @@ const withIntercomAppDelegate = (config, { apiKey, appId }) => {
         "ios",
         async (config) => {
             const fileInfo = config_plugins_1.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
-            let contents = await promises_1.default.readFile(fileInfo.path, "utf-8");
+            let contents = fs.readFileSync(fileInfo.path, "utf-8");
             if (fileInfo.language === "objc") {
                 contents = modifyObjcAppDelegate({ contents, apiKey, appId });
             }
             else {
                 throw new Error(`Cannot add Intercom code to AppDelegate of language "${fileInfo.language}"`);
             }
-            await promises_1.default.writeFile(fileInfo.path, contents);
+            fs.writeFileSync(fileInfo.path, contents);
             return config;
         },
     ]);
