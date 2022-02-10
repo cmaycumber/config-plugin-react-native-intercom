@@ -19,6 +19,9 @@ const checkProjectBuildGradle = ({ contents }) => {
 const withIntercomProjectBuildGradle = (config) => {
     return config_plugins_1.withProjectBuildGradle(config, async (config) => {
         // config = { modResults, modRequest, ...expoConfig }
+        console.log("\n\n-------\n\n");
+        console.log(config_plugins_1.AndroidConfig.Paths.getAppBuildGradleFilePath(config.modRequest.projectRoot));
+        console.log("\n\n-------\n\n");
         // Modify the project build.gradle
         checkProjectBuildGradle({
             contents: config.modResults.contents,
