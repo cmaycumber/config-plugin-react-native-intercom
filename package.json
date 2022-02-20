@@ -1,34 +1,27 @@
 {
-  "name": "config-plugin-react-native-intercom",
-  "version": "1.0.0",
-  "description": "Config plugin to auto configure react-native-intercom",
-  "main": "build/withIntercom.js",
-  "types": "build/withIntercom.d.ts",
-  "sideEffects": false,
-  "files": [
-    "build",
-    "app.plugin.js"
-  ],
+  "private": true,
   "scripts": {
-    "build": "expo-module build",
-    "clean": "expo-module clean",
-    "lint": "expo-module lint",
-    "test": "expo-module test",
-    "prepare": "expo-module prepare",
-    "prepublishOnly": "expo-module prepublishOnly",
-    "expo-module": "expo-module"
+    "postinstall": "expo-yarn-workspaces check-workspace-dependencies",
+    "start": "lerna run build --parallel -- --watch",
+    "prepare": "lerna run prepare --parallel"
   },
-  "keywords": [
-    "react-native",
-    "expo"
+  "workspaces": [
+    "apps/*",
+    "packages/*"
   ],
-  "jest": {
-    "preset": "expo-module-scripts"
-  },
-  "dependencies": {
-    "@expo/config-plugins": "^4.0.7"
-  },
   "devDependencies": {
-    "expo-module-scripts": "^2.0.0"
+    "@expo/package-manager": "^0.0.43",
+    "@types/js-yaml": "^4.0.5",
+    "@types/prompts": "^2.0.13",
+    "expo-yarn-workspaces": "^1.5.1",
+    "js-yaml": "^4.1.0",
+    "lerna": "3.4.1",
+    "prettier": "^2.2.1",
+    "prompts": "^2.4.1",
+    "remark-cli": "^9.0.0",
+    "remark-validate-links": "^10.0.2",
+    "string.prototype.replaceall": "^1.0.5",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.2.4"
   }
 }
