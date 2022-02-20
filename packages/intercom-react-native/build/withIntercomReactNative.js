@@ -5,16 +5,18 @@ const withIntercomAndroidManifest_1 = require("./withIntercomAndroidManifest");
 const withIntercomAppDelegate_1 = require("./withIntercomAppDelegate");
 const withIntercomInfoPlist_1 = require("./withIntercomInfoPlist");
 const withIntercomMainApplication_1 = require("./withIntercomMainApplication");
+const withIntercomPodfile_1 = require("./withIntercomPodfile");
 /**
  * Apply intercom-react-native configuration for Expo SDK 42 projects.
  */
-const withIntercomReactNative = (config, { appId, iosApiKey, androidApiKey, iosPhotoUsageDescription }) => {
+const withIntercomReactNative = (config, { appId, iosApiKey, androidApiKey, iosPhotoUsageDescription, experimentalBumpMinIosPlatformVersion }) => {
     let localConfig = config;
     // Add ios specific plugins
     if (iosApiKey) {
         localConfig = (0, config_plugins_1.withPlugins)(localConfig, [
             [withIntercomAppDelegate_1.withIntercomAppDelegate, { apiKey: iosApiKey, appId }],
             [withIntercomInfoPlist_1.withIntercomInfoPlist, { iosPhotoUsageDescription }],
+            [withIntercomPodfile_1.withIntercomPodfile, { experimentalBumpMinIosPlatformVersion }]
         ]);
     }
     // add android specific plugins
