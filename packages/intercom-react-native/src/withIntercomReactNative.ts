@@ -3,6 +3,7 @@ import { withIntercomAndroidManifest } from "./withIntercomAndroidManifest";
 import { withIntercomAppDelegate } from "./withIntercomAppDelegate";
 import { withIntercomInfoPlist } from "./withIntercomInfoPlist";
 import { withIntercomMainApplication } from "./withIntercomMainApplication";
+import { withIntercomPodfile } from './withIntercomPodfile'
 
 interface PluginProps {
   /**
@@ -22,12 +23,14 @@ interface PluginProps {
    * relative to project root
    */
   iosPhotoUsageDescription?: string;
+  /** Bumps the min platform version in iOS to 13 */
+  experimentalBumpMinIosPlatformVersion?: boolean;
 }
 
 /**
  * Apply intercom-react-native configuration for Expo SDK 42 projects.
  */
-const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, iosApiKey, androidApiKey, iosPhotoUsageDescription }) => {
+const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, iosApiKey, androidApiKey, iosPhotoUsageDescription, experimentalBumpMinIosPlatformVersion }) => {
 
 
   let localConfig = config;
@@ -37,6 +40,7 @@ const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, ios
     localConfig = withPlugins(localConfig, [
       [withIntercomAppDelegate, { apiKey: iosApiKey, appId }],
       [withIntercomInfoPlist, { iosPhotoUsageDescription }],
+      [withIntercomPodfile, { experimentalBumpMinIosPlatformVersion }]
     ]);
   }
 

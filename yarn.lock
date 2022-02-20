@@ -1715,10 +1715,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@intercom/intercom-react-native@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@intercom/intercom-react-native/-/intercom-react-native-1.1.1.tgz#e6034a02ed88b2edb458398e5240f2895587fbea"
-  integrity sha512-nP5FSOxlsbGxIaW1L0gM/KqQOTvCz7pvmMlFVep/wNh/ZzpnXM3s5d67FABXJBZy/7uaiMkZ5BJUyaBL62q+uA==
+"@intercom/intercom-react-native@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@intercom/intercom-react-native/-/intercom-react-native-2.0.3.tgz#df9652ec5616d551727f8cf183824f68c86de1fd"
+  integrity sha512-AQDsb788+7EmpU6euT60Xus+Jcg+RSikYsyKbVcyFthXgWfmkFWH4HvIB5/ytQocKQHdQLdnViZL5iK4km4RkQ==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
@@ -16259,9 +16259,9 @@ url-loader@~4.1.0:
     schema-utils "^3.0.0"
 
 url-parse@^1.4.4:
-  version "1.5.8"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.8.tgz#3f8090e4d6f80053eb861ec496049849f700337e"
-  integrity sha512-9JZ5zDrn9wJoOy/t+rH00HHejbU8dq9VsOYVu272TYDrCiyVAgHKUSpPh3ruZIpv8PMVR+NXLZvfRPJv8xAcQw==
+  version "1.5.9"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.5.9.tgz#05ff26484a0b5e4040ac64dcee4177223d74675e"
+  integrity sha512-HpOvhKBvre8wYez+QhHcYiVvVmeF6DVnuSOOPhe3cTum3BnqHhvKaZm8FU5yTiOu/Jut2ZpB2rA/SbBA1JIGlQ==
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
