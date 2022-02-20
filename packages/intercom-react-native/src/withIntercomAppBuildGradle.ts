@@ -1,8 +1,7 @@
-import { withAppBuildGradle, ConfigPlugin, AndroidManifest, AndroidConfig } from "@expo/config-plugins";
+import { withAppBuildGradle, ConfigPlugin } from "@expo/config-plugins";
 import { mergeContents } from "@expo/config-plugins/build/utils/generateCode";
 
 export const withIntercomAppBuildGradle: ConfigPlugin<{}> = (config) => {
-
 
     return withAppBuildGradle(config, async (config) => {
         config.modResults.contents = addAndroidPackagingOptions(
