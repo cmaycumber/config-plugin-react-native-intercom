@@ -9,7 +9,8 @@ import {
   withMainApplication,
   withAndroidManifest,
 } from "@expo/config-plugins";
-import fs from "fs/promises";
+// Fixes support for node 12
+import { promises as fs } from 'fs';
 
 const checkProjectBuildGradle = ({ contents }: { contents: string }) => {
   const minSdkVersion = parseInt(

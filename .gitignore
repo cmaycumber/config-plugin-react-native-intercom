@@ -50,3 +50,7 @@ xcuserdata
 
 # VSCode
 .history/
+
+# Yarn
+.yarn/cache
+install-state.gz
