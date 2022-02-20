@@ -32,7 +32,7 @@
     },
     "plugins": [
       [
-        "config-plugin-intercom-react-native",
+        "config-plugin-react-native-intercom",
         {
           "iosApiKey": "myIosApiKey",
           "androidApiKey": "myAndroidApiKey",
