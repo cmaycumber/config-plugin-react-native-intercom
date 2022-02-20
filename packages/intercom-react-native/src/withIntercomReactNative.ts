@@ -4,6 +4,7 @@ import { withIntercomAppDelegate } from "./withIntercomAppDelegate";
 import { withIntercomInfoPlist } from "./withIntercomInfoPlist";
 import { withIntercomMainApplication } from "./withIntercomMainApplication";
 
+// TODO: Add in built in push support
 interface PluginProps {
   /**
    * Intercom api key
