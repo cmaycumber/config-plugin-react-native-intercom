@@ -15,11 +15,8 @@ const addAndroidPackagingOptions = (src: string) => {
     return mergeContents({
         tag: "okhttp-urlconnection",
         src,
-        newSrc: `
-        com.squareup.okhttp3:okhttp-urlconnection:4.9.1'
-      `,
-        anchor: /dependencies(?:\s+)?\{/,
-        // Inside the dependencies block.
+        newSrc: "implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.1'",
+        anchor: /dependencies\s*\{/,
         offset: 1,
         comment: "//",
     });

@@ -4,6 +4,7 @@ import { withIntercomAppDelegate } from "./withIntercomAppDelegate";
 import { withIntercomInfoPlist } from "./withIntercomInfoPlist";
 import { withIntercomMainApplication } from "./withIntercomMainApplication";
 import { withIntercomPodfile } from './withIntercomPodfile'
+import { withIntercomAppBuildGradle } from './withIntercomAppBuildGradle'
 
 interface PluginProps {
   /**
@@ -49,6 +50,7 @@ const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, ios
     localConfig = withPlugins(localConfig, [
       [withIntercomAndroidManifest, {}],
       [withIntercomMainApplication, { apiKey: androidApiKey, appId }],
+      [withIntercomAppBuildGradle, {}]
     ]);
   }
 
