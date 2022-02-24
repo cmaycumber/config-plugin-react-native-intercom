@@ -1,7 +1,7 @@
 {
   "name": "@expo/app",
   "main": "./index.js",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "scripts": {
     "start": "expo start --dev-client",
     "ios": "expo run:ios",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@intercom/intercom-react-native": "^2.0.3",
-    "config-plugin-react-native-intercom": "^1.1.1",
+    "config-plugin-react-native-intercom": "^1.1.2",
     "expo": "^44.0.0",
     "expo-localization": "~12.0.0",
     "expo-splash-screen": "~0.14.0",
