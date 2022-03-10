@@ -4,7 +4,7 @@ exports.withIntercomAppDelegate = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
 const fs_1 = require("fs");
 const withIntercomAppDelegate = (config, { apiKey, appId }) => {
-    return config_plugins_1.withDangerousMod(config, [
+    return (0, config_plugins_1.withDangerousMod)(config, [
         "ios",
         async (config) => {
             const fileInfo = config_plugins_1.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);

@@ -15,7 +15,7 @@ const withIntercomReactNative = (config, { appId, iosApiKey, androidApiKey, iosP
     let localConfig = config;
     // Add ios specific plugins
     if (iosApiKey) {
-        localConfig = config_plugins_1.withPlugins(localConfig, [
+        localConfig = (0, config_plugins_1.withPlugins)(localConfig, [
             [withIntercomAppDelegate_1.withIntercomAppDelegate, { apiKey: iosApiKey, appId }],
             [withIntercomInfoPlist_1.withIntercomInfoPlist, { iosPhotoUsageDescription }],
             [withIntercomPodfile_1.withIntercomPodfile, { deploymentTarget: '13.0' }],
@@ -23,7 +23,7 @@ const withIntercomReactNative = (config, { appId, iosApiKey, androidApiKey, iosP
     }
     // add android specific plugins
     if (androidApiKey) {
-        localConfig = config_plugins_1.withPlugins(localConfig, [
+        localConfig = (0, config_plugins_1.withPlugins)(localConfig, [
             [withIntercomAndroidManifest_1.withIntercomAndroidManifest, {}],
             [withIntercomMainApplication_1.withIntercomMainApplication, { apiKey: androidApiKey, appId }],
             [withIntercomAppBuildGradle_1.withIntercomAppBuildGradle, {}],
@@ -43,4 +43,4 @@ const pkg = {
     // and might not work with the latest version of that module.
     version: "UNVERSIONED",
 };
-exports.default = config_plugins_1.createRunOncePlugin(withIntercomReactNative, pkg.name, pkg.version);
+exports.default = (0, config_plugins_1.createRunOncePlugin)(withIntercomReactNative, pkg.name, pkg.version);

@@ -15,7 +15,7 @@ const withIntercomPodfile = (config, props) => {
 };
 exports.withIntercomPodfile = withIntercomPodfile;
 const withIosDeploymentTargetPodfile = (config, props) => {
-    return config_plugins_1.withDangerousMod(config, [
+    return (0, config_plugins_1.withDangerousMod)(config, [
         "ios",
         async (config) => {
             const podfile = path_1.default.join(config.modRequest.platformProjectRoot, "Podfile");
@@ -36,7 +36,7 @@ function updateDeploymentTargetPodfile(contents, deploymentTarget) {
 }
 exports.updateDeploymentTargetPodfile = updateDeploymentTargetPodfile;
 const withIosDeploymentTargetXcodeProject = (config, props) => {
-    return config_plugins_1.withXcodeProject(config, (config) => {
+    return (0, config_plugins_1.withXcodeProject)(config, (config) => {
         config.modResults = updateDeploymentTargetXcodeProject(config.modResults, props.deploymentTarget);
         return config;
     });

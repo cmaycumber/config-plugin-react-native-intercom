@@ -8,7 +8,7 @@ const withIntercomAndroidManifest = (config) => {
         "android.permission.VIBRATE"
     ]);
     // config = AndroidConfig.Manifest.get
-    return config_plugins_1.withAndroidManifest(config, async (config) => {
+    return (0, config_plugins_1.withAndroidManifest)(config, async (config) => {
         return config;
     });
 };
