@@ -7,7 +7,8 @@ const withIntercomAndroidManifest = (config) => {
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.VIBRATE"
     ]);
-    return (0, config_plugins_1.withAndroidManifest)(config, async (config) => {
+    // config = AndroidConfig.Manifest.get
+    return config_plugins_1.withAndroidManifest(config, async (config) => {
         return config;
     });
 };

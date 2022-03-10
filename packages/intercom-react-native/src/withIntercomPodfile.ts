@@ -1,29 +1,92 @@
-import { ConfigPlugin, withDangerousMod } from "@expo/config-plugins";
-import { mergeContents } from "@expo/config-plugins/build/utils/generateCode";
-import { promises as fs } from 'fs';
-import path from 'path';
-
-export const withIntercomPodfile: ConfigPlugin<{
-    experimentalBumpMinIosPlatformVersion: boolean;
-}> = (config, { experimentalBumpMinIosPlatformVersion }) => {
-    if (experimentalBumpMinIosPlatformVersion) {
-        return withDangerousMod(config, [
-            "ios",
-            // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-            async (config) => {
-                const file = path.join(config.modRequest.platformProjectRoot, "Podfile");
-
-                const contents = await fs.readFile(file, "utf8");
-
-                await fs.writeFile(file, bumpMinPlatformVersion(contents), "utf-8");
-                return config;
-            },
-        ]);
-    }
+import {
+    ConfigPlugin,
+    withDangerousMod,
+    withXcodeProject,
+    XcodeProject,
+  } from "@expo/config-plugins";
+  import {promises as fs} from "fs";
+  import path from "path";
+  import semver from "semver";
+  
+  type IosDeploymentTargetConfigPlugin = ConfigPlugin<{
+    deploymentTarget: string;
+  }>;
+  
+export const withIntercomPodfile: IosDeploymentTargetConfigPlugin = (config, props) => {
+    config = withIosDeploymentTargetPodfile(config, props);
+    config = withIosDeploymentTargetXcodeProject(config, props);
     return config;
 };
 
-function bumpMinPlatformVersion(src: string): string {
-    // Bumps the platform version inside of the podfile
-    return src.replace(`platform :ios, '12.0'`, `platform :ios, '13.0'`);
-}
+const withIosDeploymentTargetPodfile: IosDeploymentTargetConfigPlugin = (
+    config,
+    props
+  ) => {
+    return withDangerousMod(config, [
+      "ios",
+      async (config) => {
+        const podfile = path.join(
+          config.modRequest.platformProjectRoot,
+          "Podfile"
+        );
+        let contents = await fs.readFile(podfile, "utf8");
+        contents = updateDeploymentTargetPodfile(
+          contents,
+          props.deploymentTarget
+        );
+  
+        await fs.writeFile(podfile, contents);
+        return config;
+      },
+    ]);
+  };
+  
+  export function updateDeploymentTargetPodfile(
+    contents: string,
+    deploymentTarget: string
+  ): string {
+    return contents.replace(
+      /^(\s*platform :ios, ['"])([\d.]+)(['"])/gm,
+      (match, prefix, version, suffix) => {
+        if (semver.lt(toSemVer(version), toSemVer(deploymentTarget))) {
+          return `${prefix}${deploymentTarget}${suffix}`;
+        }
+        return match;
+      }
+    );
+  }
+  
+  const withIosDeploymentTargetXcodeProject: IosDeploymentTargetConfigPlugin = (
+    config,
+    props
+  ) => {
+    return withXcodeProject(config, (config) => {
+      config.modResults = updateDeploymentTargetXcodeProject(
+        config.modResults,
+        props.deploymentTarget
+      );
+      return config;
+    });
+  };
+  
+  export function updateDeploymentTargetXcodeProject(
+    project: XcodeProject,
+    deploymentTarget: string
+  ): XcodeProject {
+    const configurations = project.pbxXCBuildConfigurationSection();
+    // @ts-ignore
+    for (const { buildSettings } of Object.values(configurations ?? {})) {
+      const currDeploymentTarget = buildSettings?.IPHONEOS_DEPLOYMENT_TARGET;
+      if (
+        currDeploymentTarget &&
+        semver.lt(toSemVer(currDeploymentTarget), toSemVer(deploymentTarget))
+      ) {
+        buildSettings.IPHONEOS_DEPLOYMENT_TARGET = deploymentTarget;
+      }
+    }
+    return project;
+  }
+  
+  function toSemVer(version: string): semver.SemVer {
+    return semver.coerce(version) ?? new semver.SemVer("0.0.0");
+  }

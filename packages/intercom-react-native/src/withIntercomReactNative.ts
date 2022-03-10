@@ -5,6 +5,7 @@ import { withIntercomInfoPlist } from "./withIntercomInfoPlist";
 import { withIntercomMainApplication } from "./withIntercomMainApplication";
 import { withIntercomPodfile } from './withIntercomPodfile'
 import { withIntercomAppBuildGradle } from './withIntercomAppBuildGradle'
+import { withIntercomProjectBuildGradle } from './withIntercomProjectBuildGradle';
 
 interface PluginProps {
   /**
@@ -41,7 +42,7 @@ const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, ios
     localConfig = withPlugins(localConfig, [
       [withIntercomAppDelegate, { apiKey: iosApiKey, appId }],
       [withIntercomInfoPlist, { iosPhotoUsageDescription }],
-      [withIntercomPodfile, { experimentalBumpMinIosPlatformVersion }]
+      [withIntercomPodfile, { deploymentTarget: '13.0' }],
     ]);
   }
 
@@ -50,7 +51,8 @@ const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, ios
     localConfig = withPlugins(localConfig, [
       [withIntercomAndroidManifest, {}],
       [withIntercomMainApplication, { apiKey: androidApiKey, appId }],
-      [withIntercomAppBuildGradle, {}]
+      [withIntercomAppBuildGradle, {}],
+      [withIntercomProjectBuildGradle, {}]
     ]);
   }
 
@@ -63,7 +65,7 @@ const pkg = {
   // This pattern enables users to safely migrate off of this
   // out-of-tree `@config-plugins/intercom-react-native` to a future
   // upstream plugin in `intercom-react-native`
-  name: "intercom-react-native",
+  name: "@intercom/intercom-react-native",
   // Indicates that this plugin is dangerously linked to a module,
   // and might not work with the latest version of that module.
   version: "UNVERSIONED",

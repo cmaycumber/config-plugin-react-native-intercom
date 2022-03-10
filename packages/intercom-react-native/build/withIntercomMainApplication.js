@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.withIntercomMainApplication = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
 const withIntercomMainApplication = (config, { apiKey, appId }) => {
-    return (0, config_plugins_1.withMainApplication)(config, async (config) => {
+    return config_plugins_1.withMainApplication(config, async (config) => {
         // AndroidConfig.Manifest.add
         // Modify the project build.gradle
         config.modResults.contents = modifyMainApplication({

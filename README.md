@@ -1,4 +1,4 @@
-# Expo Config Plugin `react-native-intercom`
+# Expo Config Plugin `@intercom/intercom-react-native`
 
 An [Expo config plugin](https://docs.expo.io/guides/config-plugins) for easily setting up [React Native Intercom](https://github.com/intercom/intercom-react-native)
 
@@ -34,6 +34,10 @@ Open your `app.json` and update your `plugins` section (`expo install` would do 
 }
 ```
 
+## For versions of `@intercom/intercom-react-native` > 2
+
+Use `"experimentalBumpMinIosPlatformVersion": true` for iOS builds.
+
 ## Configuration
 
 The plugin needs your intercom api key so that it can communicate with the intercom application.
@@ -46,7 +50,8 @@ The plugin needs your intercom api key so that it can communicate with the inter
       {
         "iosApiKey": "<your-api-key>",
         "androidApiKey": "<your-api-key>",
-        "appId": "<your-app-id>
+        "appId": "<your-app-id>",
+        "experimentalBumpMinIosPlatformVersion": true
       }
     ]
   ]

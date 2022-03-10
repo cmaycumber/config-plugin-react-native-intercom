@@ -7,6 +7,7 @@ const withIntercomInfoPlist_1 = require("./withIntercomInfoPlist");
 const withIntercomMainApplication_1 = require("./withIntercomMainApplication");
 const withIntercomPodfile_1 = require("./withIntercomPodfile");
 const withIntercomAppBuildGradle_1 = require("./withIntercomAppBuildGradle");
+const withIntercomProjectBuildGradle_1 = require("./withIntercomProjectBuildGradle");
 /**
  * Apply intercom-react-native configuration for Expo SDK 42 projects.
  */
@@ -14,18 +15,19 @@ const withIntercomReactNative = (config, { appId, iosApiKey, androidApiKey, iosP
     let localConfig = config;
     // Add ios specific plugins
     if (iosApiKey) {
-        localConfig = (0, config_plugins_1.withPlugins)(localConfig, [
+        localConfig = config_plugins_1.withPlugins(localConfig, [
             [withIntercomAppDelegate_1.withIntercomAppDelegate, { apiKey: iosApiKey, appId }],
             [withIntercomInfoPlist_1.withIntercomInfoPlist, { iosPhotoUsageDescription }],
-            [withIntercomPodfile_1.withIntercomPodfile, { experimentalBumpMinIosPlatformVersion }]
+            [withIntercomPodfile_1.withIntercomPodfile, { deploymentTarget: '13.0' }],
         ]);
     }
     // add android specific plugins
     if (androidApiKey) {
-        localConfig = (0, config_plugins_1.withPlugins)(localConfig, [
+        localConfig = config_plugins_1.withPlugins(localConfig, [
             [withIntercomAndroidManifest_1.withIntercomAndroidManifest, {}],
             [withIntercomMainApplication_1.withIntercomMainApplication, { apiKey: androidApiKey, appId }],
-            [withIntercomAppBuildGradle_1.withIntercomAppBuildGradle, {}]
+            [withIntercomAppBuildGradle_1.withIntercomAppBuildGradle, {}],
+            [withIntercomProjectBuildGradle_1.withIntercomProjectBuildGradle, {}]
         ]);
     }
     // Return the modified config.
@@ -36,9 +38,9 @@ const pkg = {
     // This pattern enables users to safely migrate off of this
     // out-of-tree `@config-plugins/intercom-react-native` to a future
     // upstream plugin in `intercom-react-native`
-    name: "intercom-react-native",
+    name: "@intercom/intercom-react-native",
     // Indicates that this plugin is dangerously linked to a module,
     // and might not work with the latest version of that module.
     version: "UNVERSIONED",
 };
-exports.default = (0, config_plugins_1.createRunOncePlugin)(withIntercomReactNative, pkg.name, pkg.version);
+exports.default = config_plugins_1.createRunOncePlugin(withIntercomReactNative, pkg.name, pkg.version);
