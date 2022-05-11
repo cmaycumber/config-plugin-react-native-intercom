@@ -1,11 +1,10 @@
 import { ConfigPlugin, createRunOncePlugin, withPlugins } from "@expo/config-plugins";
+import { withBuildProperties } from "expo-build-properties";
 import { withIntercomAndroidManifest } from "./withIntercomAndroidManifest";
 import { withIntercomAppDelegate } from "./withIntercomAppDelegate";
 import { withIntercomInfoPlist } from "./withIntercomInfoPlist";
 import { withIntercomMainApplication } from "./withIntercomMainApplication";
-import { withIntercomPodfile } from './withIntercomPodfile'
-import { withIntercomAppBuildGradle } from './withIntercomAppBuildGradle'
-import { withIntercomProjectBuildGradle } from './withIntercomProjectBuildGradle';
+import { withIntercomAppBuildGradle } from "./withIntercomAppBuildGradle";
 
 interface PluginProps {
   /**
@@ -25,16 +24,18 @@ interface PluginProps {
    * relative to project root
    */
   iosPhotoUsageDescription?: string;
-  /** Bumps the min platform version in iOS to 13 */
-  experimentalBumpMinIosPlatformVersion?: boolean;
+
+  /** Optionally adds support for https://developers.intercom.com/installing-intercom/docs/react-native-data-hosting-region-configuration */
+  intercomEURegion?: boolean;
 }
 
 /**
  * Apply intercom-react-native configuration for Expo SDK 42 projects.
  */
-const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, iosApiKey, androidApiKey, iosPhotoUsageDescription, experimentalBumpMinIosPlatformVersion }) => {
-
-
+const withIntercomReactNative: ConfigPlugin<PluginProps> = (
+  config,
+  { appId, iosApiKey, androidApiKey, iosPhotoUsageDescription }
+) => {
   let localConfig = config;
 
   // Add ios specific plugins
@@ -42,7 +43,6 @@ const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, ios
     localConfig = withPlugins(localConfig, [
       [withIntercomAppDelegate, { apiKey: iosApiKey, appId }],
       [withIntercomInfoPlist, { iosPhotoUsageDescription }],
-      [withIntercomPodfile, { deploymentTarget: '13.0' }],
     ]);
   }
 
@@ -52,9 +52,24 @@ const withIntercomReactNative: ConfigPlugin<PluginProps> = (config, { appId, ios
       [withIntercomAndroidManifest, {}],
       [withIntercomMainApplication, { apiKey: androidApiKey, appId }],
       [withIntercomAppBuildGradle, {}],
-      [withIntercomProjectBuildGradle, {}]
     ]);
   }
+
+  localConfig = withPlugins(localConfig, [
+    [
+      withBuildProperties,
+      {
+        android: {
+          compileSdkVersion: 31,
+          targetSdkVersion: 31,
+          buildToolsVersion: "31.0.0",
+        },
+        ios: {
+          deploymentTarget: "13.0",
+        },
+      },
+    ],
+  ]);
 
   // Return the modified config.
   return config;

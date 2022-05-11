@@ -8,20 +8,21 @@
     "android": "expo run:android"
   },
   "dependencies": {
-    "@intercom/intercom-react-native": "^2.0.3",
+    "@intercom/intercom-react-native": "^3.0.3",
     "config-plugin-react-native-intercom": "^1.2.1",
-    "expo": "^44.0.0",
-    "expo-localization": "~12.0.0",
-    "expo-splash-screen": "~0.14.1",
-    "expo-status-bar": "~1.2.0",
-    "expo-updates": "~0.11.6",
+    "expo": "^45.0.0",
+    "expo-build-properties": "~0.1.0",
+    "expo-localization": "~13.0.0",
+    "expo-splash-screen": "~0.15.1",
+    "expo-status-bar": "~1.3.0",
+    "expo-updates": "~0.13.1",
     "i18n-js": "^3.8.0",
     "luxon": "^1.27.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-native": "0.64.3",
-    "react-native-safe-area-context": "3.3.2",
-    "react-native-web": "0.17.1"
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-native": "0.68.1",
+    "react-native-safe-area-context": "4.2.4",
+    "react-native-web": "0.17.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -31,12 +32,15 @@
     "@types/jest": "^26.0.19",
     "@types/luxon": "^1.27.1",
     "@types/react": "~17.0.21",
-    "@types/react-native": "~0.64.12",
+    "@types/react-native": "~0.67.6",
     "babel-jest": "~25.2.6",
     "jest": "^26.6.3",
     "jest-circus": "^26.5.2",
     "ts-jest": "^26.4.4",
     "typescript": "~4.3.5"
   },
-  "private": true
+  "private": true,
+  "peerDependencies": {
+    "@intercom/intercom-react-native": "^3.0.3"
+  }
 }

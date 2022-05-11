@@ -17,8 +17,8 @@ interface PluginProps {
      * relative to project root
      */
     iosPhotoUsageDescription?: string;
-    /** Bumps the min platform version in iOS to 13 */
-    experimentalBumpMinIosPlatformVersion?: boolean;
+    /** Optionally adds support for https://developers.intercom.com/installing-intercom/docs/react-native-data-hosting-region-configuration */
+    intercomEURegion?: boolean;
 }
 declare const _default: ConfigPlugin<PluginProps>;
 export default _default;

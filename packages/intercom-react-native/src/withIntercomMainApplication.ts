@@ -1,61 +1,54 @@
-import { AndroidConfig, ConfigPlugin, withMainApplication, } from "@expo/config-plugins";
+import { AndroidConfig, ConfigPlugin, withMainApplication } from "@expo/config-plugins";
 
 export const withIntercomMainApplication: ConfigPlugin<{
-    apiKey: string;
-    appId: string;
+  apiKey: string;
+  appId: string;
 }> = (config, { apiKey, appId }) => {
-    return withMainApplication(config, async (config) => {
-
-        // AndroidConfig.Manifest.add
-        // Modify the project build.gradle
-        config.modResults.contents = modifyMainApplication({
-            contents: config.modResults.contents,
-            apiKey,
-            appId,
-            packageName: AndroidConfig.Package.getPackage(config),
-        });
-
-        return config;
+  return withMainApplication(config, async (config) => {
+    // AndroidConfig.Manifest.add
+    // Modify the project build.gradle
+    config.modResults.contents = modifyMainApplication({
+      contents: config.modResults.contents,
+      apiKey,
+      appId,
+      packageName: AndroidConfig.Package.getPackage(config),
     });
+
+    return config;
+  });
 };
 
 const modifyMainApplication = ({
-    contents,
-    apiKey,
-    appId,
-    packageName,
+  contents,
+  apiKey,
+  appId,
+  packageName,
 }: {
-    contents: string;
-    apiKey: string;
-    appId: string;
-    packageName: string | null;
+  contents: string;
+  apiKey: string;
+  appId: string;
+  packageName: string | null;
 }) => {
-    if (!packageName) {
-        throw new Error("Android package not found");
-    }
+  if (!packageName) {
+    throw new Error("Android package not found");
+  }
 
-    const importLine = `import com.intercom.reactnative.IntercomModule;`;
-    if (!contents.includes(importLine)) {
-        const packageImport = `package ${packageName};`;
-        // Add the import line to the top of the file
-        // Replace the first line with the intercom import
-        contents = contents.replace(
-            `${packageImport}`,
-            `${packageImport}\n${importLine}`
-        );
-    }
+  const importLine = `import com.intercom.reactnative.IntercomModule;`;
+  if (!contents.includes(importLine)) {
+    const packageImport = `package ${packageName};`;
+    // Add the import line to the top of the file
+    // Replace the first line with the intercom import
+    contents = contents.replace(`${packageImport}`, `${packageImport}\n${importLine}`);
+  }
 
-    const initLine = `IntercomModule.initialize(this, "${apiKey}", "${appId}");`;
+  const initLine = `IntercomModule.initialize(this, "${apiKey}", "${appId}");`;
 
-    if (!contents.includes(initLine)) {
-        // TODO: Replace this with safer regex
-        const soLoaderLine = `SoLoader.init(this, /* native exopackage */ false);`;
-        // Replace the line SoLoader.init(this, /* native exopackage */ false); with regex
-        contents = contents.replace(
-            `${soLoaderLine}`,
-            `${soLoaderLine}\n\t\t${initLine}\n`
-        );
-    }
+  if (!contents.includes(initLine)) {
+    // TODO: Replace this with safer regex
+    const soLoaderLine = `SoLoader.init(this, /* native exopackage */ false);`;
+    // Replace the line SoLoader.init(this, /* native exopackage */ false); with regex
+    contents = contents.replace(`${soLoaderLine}`, `${soLoaderLine}\n\t\t${initLine}\n`);
+  }
 
-    return contents;
+  return contents;
 };

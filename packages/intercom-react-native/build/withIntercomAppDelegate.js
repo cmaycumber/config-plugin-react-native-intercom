@@ -4,12 +4,12 @@ exports.withIntercomAppDelegate = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
 const fs_1 = require("fs");
 const withIntercomAppDelegate = (config, { apiKey, appId }) => {
-    return config_plugins_1.withDangerousMod(config, [
+    return (0, config_plugins_1.withDangerousMod)(config, [
         "ios",
         async (config) => {
             const fileInfo = config_plugins_1.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
             let contents = await fs_1.promises.readFile(fileInfo.path, "utf-8");
-            if (fileInfo.language === "objc") {
+            if (fileInfo.language === "objcpp") {
                 contents = modifyObjcAppDelegate({ contents, apiKey, appId });
             }
             else {

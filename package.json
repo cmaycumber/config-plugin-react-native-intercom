@@ -1,6 +1,8 @@
 {
   "private": true,
   "scripts": {
+    "example": "yarn workspace @expo/app",
+    "plugin": "yarn workspace config-plugin-react-native-intercom",
     "postinstall": "expo-yarn-workspaces check-workspace-dependencies",
     "start": "lerna run build --parallel -- --watch",
     "prepare": "lerna run prepare --parallel"
@@ -13,6 +15,7 @@
     "@expo/package-manager": "^0.0.43",
     "@types/js-yaml": "^4.0.5",
     "@types/prompts": "^2.0.13",
+    "eslint": "^8.15.0",
     "expo-yarn-workspaces": "^1.5.1",
     "js-yaml": "^4.1.0",
     "lerna": "3.4.1",

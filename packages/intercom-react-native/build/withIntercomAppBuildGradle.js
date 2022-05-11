@@ -4,14 +4,14 @@ exports.withIntercomAppBuildGradle = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
 const generateCode_1 = require("@expo/config-plugins/build/utils/generateCode");
 const withIntercomAppBuildGradle = (config) => {
-    return config_plugins_1.withAppBuildGradle(config, async (config) => {
+    return (0, config_plugins_1.withAppBuildGradle)(config, async (config) => {
         config.modResults.contents = addAndroidPackagingOptions(config.modResults.contents).contents;
         return config;
     });
 };
 exports.withIntercomAppBuildGradle = withIntercomAppBuildGradle;
 const addAndroidPackagingOptions = (src) => {
-    return generateCode_1.mergeContents({
+    return (0, generateCode_1.mergeContents)({
         tag: "okhttp-urlconnection",
         src,
         newSrc: "    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.1'",

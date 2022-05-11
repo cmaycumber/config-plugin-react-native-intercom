@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "config-plugin.intercom.app"
@@ -36,8 +34,7 @@
         {
           "iosApiKey": "myIosApiKey",
           "androidApiKey": "myAndroidApiKey",
-          "appId": "myAppId",
-          "experimentalBumpMinIosPlatformVersion": true
+          "appId": "myAppId"
         }
       ]
     ]
