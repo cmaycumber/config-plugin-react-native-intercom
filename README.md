@@ -1,14 +1,22 @@
-# Expo Config Plugin `react-native-intercom`
+# Expo Config Plugin `@intercom/intercom-react-native`
 
-An [Expo config plugin](https://docs.expo.io/guides/config-plugins) for easily setting up [React Native Intercom](https://github.com/intercom/intercom-react-native)
+An unofficial [Expo config plugin](https://docs.expo.io/guides/config-plugins) for easily setting up [React Native Intercom](https://github.com/intercom/intercom-react-native) with expo dev clients
 
 ## Installation
 
-#### Prerequisites
+### Prerequisites
 
-- App project using Expo SDK 41+.
+#### Versions > 1.3
+
+- App project using Expo SDK 45.
 - Installed `expo-cli@4.4.4` or later.
-- Installed `@intercom/intercom-react-native` JavaScript libraries:
+- Installed `@intercom/intercom-react-native@3.0.3` or later
+
+#### Versions < 1.3
+
+- App project using Expo SDK 44.
+- Installed `expo-cli@4.4.4` or later.
+- Installed `@intercom/intercom-react-native`
 
 #### With `expo install`
 
@@ -46,7 +54,7 @@ The plugin needs your intercom api key so that it can communicate with the inter
       {
         "iosApiKey": "<your-api-key>",
         "androidApiKey": "<your-api-key>",
-        "appId": "<your-app-id>
+        "appId": "<your-app-id>"
       }
     ]
   ]
@@ -109,8 +117,6 @@ Please make sure to run `yarn build`/`yarn rebuild` to update the `build` direct
 ## Credits
 
 - _the Expo team_
-
-- [@barthap](https://github.com/cmaycumber) - <https://github.com/cmaycumber/with-rn-firebase>
 
 - <https://github.com/expo/config-plugins>
 

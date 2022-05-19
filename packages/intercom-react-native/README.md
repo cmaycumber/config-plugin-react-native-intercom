@@ -1,50 +1,100 @@
-# @config-plugins/intercom-react-native
+# Expo Config Plugin `@intercom/intercom-react-native`
 
-Expo Config Plugin to auto configure [`intercom-react-native`](https://www.npmjs.com/package/intercom-react-native) when the native code is generated (`expo prebuild`).
+An [Expo config plugin](https://docs.expo.io/guides/config-plugins) for easily setting up [React Native Intercom](https://github.com/intercom/intercom-react-native)
 
-## Expo installation
+## Installation
 
-> Tested against Expo SDK 42
+#### Prerequisites
 
-This package cannot be used in the "Expo Go" app because [it requires custom native code](https://docs.expo.io/workflow/customizing/).
+- App project using Expo SDK 41+.
+- Installed `expo-cli@4.4.4` or later.
+- Installed `@intercom/intercom-react-native` JavaScript libraries:
 
-- First install the package with yarn, npm, or [`expo install`](https://docs.expo.io/workflow/expo-cli/#expo-install).
+#### With `expo install`
+
+```
+expo install config-plugin-react-native-intercom
+```
+
+#### Without `expo install`
 
 ```sh
-expo install intercom-react-native @config-plugins/intercom-react-native
+# using yarn
+yarn add config-plugin-react-native-intercom
+
+# using npm
+npm install config-plugin-react-native-intercom
 ```
 
-After installing this npm package, add the [config plugin](https://docs.expo.io/guides/config-plugins/) to the [`plugins`](https://docs.expo.io/versions/latest/config/app/#plugins) array of your `app.json` or `app.config.js`:
+Open your `app.json` and update your `plugins` section (`expo install` would do it for you):
 
 ```json
 {
-  "expo": {
-    "plugins": ["@config-plugins/intercom-react-native"]
-  }
+  "plugins": ["config-plugin-react-native-intercom"]
 }
 ```
 
-Next, rebuild your app as described in the ["Adding custom native code"](https://docs.expo.io/workflow/customizing/) guide.
+## Configuration
 
-## API
-
-The plugin provides props for extra customization. Every time you change the props or plugins, you'll need to rebuild (and `prebuild`) the native app. If no extra properties are added, defaults will be used.
-
-- `foobar` (_boolean_): Does XYZ. Default `false`.
-
-#### Example
+The plugin needs your intercom api key so that it can communicate with the intercom application.
 
 ```json
 {
-  "expo": {
-    "plugins": [
-      [
-        "@config-plugins/intercom-react-native",
-        {
-          // props ...
-        }
-      ]
+  "plugins": [
+    [
+      "config-plugin-react-native-intercom",
+      {
+        "iosApiKey": "<your-api-key>",
+        "androidApiKey": "<your-api-key>",
+        "appId": "<your-app-id>"
+      }
     ]
-  }
+  ]
 }
 ```
+
+### Other configuration options
+
+<details>
+<summary>Add a custom photo usage description</summary>
+
+```json
+{
+  "plugins": [
+    [
+      "config-plugin-react-native-intercom",
+      {
+        //...
+        "iosPhotoUsageDescription": "Upload to support center"
+      }
+    ]
+  ]
+}
+```
+
+</details>
+
+## Building and running
+
+You can either:
+
+- use `expo prebuild` or `expo run:android`/`expo run:ios` to update your native projects,
+- use _[EAS Build](https://docs.expo.io/build/introduction/)_ to build your development client.
+
+## Contributing
+
+Contributions are very welcome! The package uses `expo-module-scripts` for most tasks. You can find detailed information [at this link](https://github.com/expo/expo/tree/master/packages/expo-module-scripts#-config-plugin).
+
+Please make sure to run `yarn build`/`yarn rebuild` to update the `build` directory before pushing. The CI will fail otherwise.
+
+## Credits
+
+- _the Expo team_
+
+- [@barthap](https://github.com/cmaycumber) - <https://github.com/cmaycumber/with-rn-firebase>
+
+- <https://github.com/expo/config-plugins>
+
+## License
+
+MIT

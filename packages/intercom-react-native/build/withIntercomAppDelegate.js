@@ -9,7 +9,7 @@ const withIntercomAppDelegate = (config, { apiKey, appId }) => {
         async (config) => {
             const fileInfo = config_plugins_1.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
             let contents = await fs_1.promises.readFile(fileInfo.path, "utf-8");
-            if (fileInfo.language === "objc") {
+            if (fileInfo.language === "objcpp") {
                 contents = modifyObjcAppDelegate({ contents, apiKey, appId });
             }
             else {

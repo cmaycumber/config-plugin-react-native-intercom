@@ -17,6 +17,8 @@ interface PluginProps {
      * relative to project root
      */
     iosPhotoUsageDescription?: string;
+    /** Optionally adds support for https://developers.intercom.com/installing-intercom/docs/react-native-data-hosting-region-configuration */
+    intercomEURegion?: boolean;
 }
 declare const _default: ConfigPlugin<PluginProps>;
 export default _default;
