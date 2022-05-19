@@ -28,10 +28,6 @@ function getCurrentPackageName(projectRoot: string, packageRoot: string) {
   return packagePathParts.join(".");
 }
 
-async function readFileAsync(path: string) {
-  return fs.readFile(path, "utf8");
-}
-
 async function saveFileAsync(path: string, content: string) {
   return fs.writeFile(path, content, "utf8");
 }

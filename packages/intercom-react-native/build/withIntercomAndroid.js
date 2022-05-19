@@ -18,9 +18,6 @@ function getCurrentPackageName(projectRoot, packageRoot) {
     const packagePathParts = path_1.default.relative(packageRoot, packagePath).split(path_1.default.sep).filter(Boolean);
     return packagePathParts.join(".");
 }
-async function readFileAsync(path) {
-    return fs_1.promises.readFile(path, "utf8");
-}
 async function saveFileAsync(path, content) {
     return fs_1.promises.writeFile(path, content, "utf8");
 }
