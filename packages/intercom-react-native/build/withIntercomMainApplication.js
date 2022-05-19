@@ -29,7 +29,6 @@ const modifyMainApplication = ({ contents, apiKey, appId, packageName, }) => {
     }
     const initLine = `IntercomModule.initialize(this, "${apiKey}", "${appId}");`;
     if (!contents.includes(initLine)) {
-        // TODO: Replace this with safer regex
         const soLoaderLine = `SoLoader.init(this, /* native exopackage */ false);`;
         // Replace the line SoLoader.init(this, /* native exopackage */ false); with regex
         contents = contents.replace(`${soLoaderLine}`, `${soLoaderLine}\n\t\t${initLine}\n`);

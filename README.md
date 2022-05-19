@@ -74,6 +74,25 @@ The plugin needs your intercom api key so that it can communicate with the inter
 
 </details>
 
+<details>
+<summary>Add EU Region support on Android (Follow Intercom instructions for iOS)</summary>
+
+```json
+{
+  "plugins": [
+    [
+      "config-plugin-react-native-intercom",
+      {
+        //...
+        "intercomEURegion": "true"
+      }
+    ]
+  ]
+}
+```
+
+</details>
+
 ## Building and running
 
 You can either:
