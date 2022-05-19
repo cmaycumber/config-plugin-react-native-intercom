@@ -1,5 +1,5 @@
-import { ConfigPlugin, withAndroidManifest, AndroidConfig } from "@expo/config-plugins";
 import { ExpoConfig } from "@expo/config-types";
+import { ConfigPlugin, withAndroidManifest, AndroidConfig } from "@expo/config-plugins";
 
 const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } = AndroidConfig.Manifest;
 
@@ -11,6 +11,10 @@ export const withIntercomAndroidManifest: ConfigPlugin<{
     "android.permission.VIBRATE",
   ]);
 
+  // AndroidConfig.IntentFilters.withAndroidIntentFilters(config, {
+
+  // })
+
   return withAndroidManifest(config, async (config) => {
     if (EURegion) {
       config.modResults = await setEURegionTrueAsync(config, config.modResults);
@@ -18,6 +22,8 @@ export const withIntercomAndroidManifest: ConfigPlugin<{
     return config;
   });
 };
+
+async function addPushSupport() {}
 
 // Splitting this function out of the mod makes it easier to test.
 async function setEURegionTrueAsync(

@@ -92,7 +92,7 @@ The plugin needs your intercom api key so that it can communicate with the inter
       "config-plugin-react-native-intercom",
       {
         //...
-        "intercomEURegion": "Upload to support center"
+        "intercomEURegion": "true"
       }
     ]
   ]

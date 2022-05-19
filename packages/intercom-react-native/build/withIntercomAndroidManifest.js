@@ -8,6 +8,8 @@ const withIntercomAndroidManifest = (config, { EURegion }) => {
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.VIBRATE",
     ]);
+    // AndroidConfig.IntentFilters.withAndroidIntentFilters(config, {
+    // })
     return (0, config_plugins_1.withAndroidManifest)(config, async (config) => {
         if (EURegion) {
             config.modResults = await setEURegionTrueAsync(config, config.modResults);
@@ -16,6 +18,7 @@ const withIntercomAndroidManifest = (config, { EURegion }) => {
     });
 };
 exports.withIntercomAndroidManifest = withIntercomAndroidManifest;
+async function addPushSupport() { }
 // Splitting this function out of the mod makes it easier to test.
 async function setEURegionTrueAsync(config, androidManifest) {
     // Get the <application /> tag and assert if it doesn't exist.
