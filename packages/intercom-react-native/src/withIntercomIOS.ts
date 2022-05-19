@@ -1,17 +1,48 @@
-import { ConfigPlugin, withDangerousMod, IOSConfig } from "@expo/config-plugins";
+import { ConfigPlugin, withInfoPlist } from "@expo/config-plugins";
+import { withDangerousMod, IOSConfig } from "@expo/config-plugins";
 import { promises as fs } from "fs";
+import type { IntercomPluginProps } from "./withIntercom";
+
+export const withIntercomIOS: ConfigPlugin<IntercomPluginProps> = (
+  config,
+  { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabled = false }
+) => {
+  config = withIntercomInfoPlist(config, {
+    iosPhotoUsageDescription,
+  });
+  config = withIntercomAppDelegate(config, {
+    apiKey: iosApiKey as string,
+    appId,
+    pushNotifications: isPushNotificationsEnabled,
+  });
+  return config;
+};
+
+export const withIntercomInfoPlist: ConfigPlugin<{
+  iosPhotoUsageDescription?: string;
+}> = (config, { iosPhotoUsageDescription }) => {
+  return withInfoPlist(config, async (config) => {
+    // Add on the right permissions for expo to use the photo library, this might change if we add more permissions
+    if (!config.modResults.NSPhotoLibraryUsageDescription) {
+      config.modResults.NSPhotoLibraryUsageDescription =
+        iosPhotoUsageDescription ?? "Upload images to support center";
+    }
+    return config;
+  });
+};
 
 export const withIntercomAppDelegate: ConfigPlugin<{
   apiKey: string;
   appId: string;
-}> = (config, { apiKey, appId }) => {
+  pushNotifications: boolean;
+}> = (config, { apiKey, appId, pushNotifications }) => {
   return withDangerousMod(config, [
     "ios",
     async (config) => {
       const fileInfo = IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
       let contents = await fs.readFile(fileInfo.path, "utf-8");
       if (fileInfo.language === "objcpp" || fileInfo.language === "objc") {
-        contents = modifyObjcAppDelegate({ contents, apiKey, appId });
+        contents = modifyObjcAppDelegate({ contents, apiKey, appId, pushNotifications });
       } else {
         throw new Error(
           `Cannot add Intercom code to AppDelegate of language "${fileInfo.language}"`
@@ -27,10 +58,12 @@ function modifyObjcAppDelegate({
   contents,
   apiKey,
   appId,
+  pushNotifications,
 }: {
   contents: string;
   apiKey: string;
   appId: string;
+  pushNotifications: boolean;
 }): string {
   // Add import
   if (!contents.includes("#import <IntercomModule.h>")) {
@@ -59,9 +92,13 @@ function modifyObjcAppDelegate({
     // TODO: Determine if this is safe
     contents = contents.replace(
       /return YES;/g,
-      `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${registerIntercomPushCode}\n\n\treturn YES;`
+      `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${
+        pushNotifications ? registerIntercomPushCode : ""
+      }\n\n\treturn YES;`
     );
+  }
 
+  if (!contents.includes(registerPushLine) && pushNotifications) {
     contents = contents.replace(registerPushAnchor, `${registerPushLine}\n\t${registerPushAnchor}`);
   }
 

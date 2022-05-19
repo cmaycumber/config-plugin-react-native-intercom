@@ -1,1 +1,1 @@
-module.exports = require("./build/withIntercomReactNative");
+module.exports = require("./build/withIntercom");

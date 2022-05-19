@@ -1,16 +1,40 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.withIntercomAppDelegate = void 0;
+exports.withIntercomAppDelegate = exports.withIntercomInfoPlist = exports.withIntercomIOS = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
+const config_plugins_2 = require("@expo/config-plugins");
 const fs_1 = require("fs");
-const withIntercomAppDelegate = (config, { apiKey, appId }) => {
-    return (0, config_plugins_1.withDangerousMod)(config, [
+const withIntercomIOS = (config, { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabled = false }) => {
+    config = (0, exports.withIntercomInfoPlist)(config, {
+        iosPhotoUsageDescription,
+    });
+    config = (0, exports.withIntercomAppDelegate)(config, {
+        apiKey: iosApiKey,
+        appId,
+        pushNotifications: isPushNotificationsEnabled,
+    });
+    return config;
+};
+exports.withIntercomIOS = withIntercomIOS;
+const withIntercomInfoPlist = (config, { iosPhotoUsageDescription }) => {
+    return (0, config_plugins_1.withInfoPlist)(config, async (config) => {
+        // Add on the right permissions for expo to use the photo library, this might change if we add more permissions
+        if (!config.modResults.NSPhotoLibraryUsageDescription) {
+            config.modResults.NSPhotoLibraryUsageDescription =
+                iosPhotoUsageDescription !== null && iosPhotoUsageDescription !== void 0 ? iosPhotoUsageDescription : "Upload images to support center";
+        }
+        return config;
+    });
+};
+exports.withIntercomInfoPlist = withIntercomInfoPlist;
+const withIntercomAppDelegate = (config, { apiKey, appId, pushNotifications }) => {
+    return (0, config_plugins_2.withDangerousMod)(config, [
         "ios",
         async (config) => {
-            const fileInfo = config_plugins_1.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
+            const fileInfo = config_plugins_2.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
             let contents = await fs_1.promises.readFile(fileInfo.path, "utf-8");
             if (fileInfo.language === "objcpp" || fileInfo.language === "objc") {
-                contents = modifyObjcAppDelegate({ contents, apiKey, appId });
+                contents = modifyObjcAppDelegate({ contents, apiKey, appId, pushNotifications });
             }
             else {
                 throw new Error(`Cannot add Intercom code to AppDelegate of language "${fileInfo.language}"`);
@@ -21,7 +45,7 @@ const withIntercomAppDelegate = (config, { apiKey, appId }) => {
     ]);
 };
 exports.withIntercomAppDelegate = withIntercomAppDelegate;
-function modifyObjcAppDelegate({ contents, apiKey, appId, }) {
+function modifyObjcAppDelegate({ contents, apiKey, appId, pushNotifications, }) {
     // Add import
     if (!contents.includes("#import <IntercomModule.h>")) {
         // Replace the first line with the intercom import
@@ -42,7 +66,9 @@ function modifyObjcAppDelegate({ contents, apiKey, appId, }) {
     // Add invocation
     if (!contents.includes(initMethodInvocationBlock)) {
         // TODO: Determine if this is safe
-        contents = contents.replace(/return YES;/g, `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${registerIntercomPushCode}\n\n\treturn YES;`);
+        contents = contents.replace(/return YES;/g, `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${pushNotifications ? registerIntercomPushCode : ""}\n\n\treturn YES;`);
+    }
+    if (!contents.includes(registerPushLine) && pushNotifications) {
         contents = contents.replace(registerPushAnchor, `${registerPushLine}\n\t${registerPushAnchor}`);
     }
     return contents;
