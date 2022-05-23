@@ -4,14 +4,14 @@ exports.withIntercomAppDelegate = exports.withIntercomInfoPlist = exports.withIn
 const config_plugins_1 = require("@expo/config-plugins");
 const config_plugins_2 = require("@expo/config-plugins");
 const fs_1 = require("fs");
-const withIntercomIOS = (config, { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabled = false }) => {
+const withIntercomIOS = (config, { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabledIOS = false }) => {
     config = (0, exports.withIntercomInfoPlist)(config, {
         iosPhotoUsageDescription,
     });
     config = (0, exports.withIntercomAppDelegate)(config, {
         apiKey: iosApiKey,
         appId,
-        pushNotifications: isPushNotificationsEnabled,
+        pushNotifications: isPushNotificationsEnabledIOS,
     });
     return config;
 };

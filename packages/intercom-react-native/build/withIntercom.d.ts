@@ -9,6 +9,10 @@ export interface IntercomPluginPropsIOS {
      * Intercom api key
      */
     iosApiKey?: string;
+    /**
+     * Enable push notifications for iOS
+     */
+    isPushNotificationsEnabledIOS?: boolean;
 }
 export interface IntercomPluginPropsAndroid {
     /** Optionally adds support for https://developers.intercom.com/installing-intercom/docs/react-native-data-hosting-region-configuration */
@@ -23,10 +27,6 @@ export interface IntercomPluginProps extends IntercomPluginPropsIOS, IntercomPlu
      * The app id for your intercom app
      */
     appId: string;
-    /**
-     * Enable push notifications for both platforms
-     */
-    isPushNotificationsEnabled?: boolean;
 }
 declare const _default: ConfigPlugin<IntercomPluginProps>;
 export default _default;
