@@ -13,6 +13,10 @@ export interface IntercomPluginPropsIOS {
    * Intercom api key
    */
   iosApiKey?: string;
+  /**
+   * Enable push notifications for iOS
+   */
+  isPushNotificationsEnabledIOS?: boolean;
 }
 
 export interface IntercomPluginPropsAndroid {
@@ -22,6 +26,10 @@ export interface IntercomPluginPropsAndroid {
    * Intercom app id
    */
   androidApiKey?: string;
+  /**
+   * Enable push notifications for iOS
+   */
+  //  isPushNotificationsEnabledAndroid?: boolean;
 }
 
 // TODO: Add in built in push support
@@ -30,10 +38,6 @@ export interface IntercomPluginProps extends IntercomPluginPropsIOS, IntercomPlu
    * The app id for your intercom app
    */
   appId: string;
-  /**
-   * Enable push notifications for both platforms
-   */
-  isPushNotificationsEnabled?: boolean;
 }
 
 /**

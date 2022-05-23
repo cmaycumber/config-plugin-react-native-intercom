@@ -5,7 +5,7 @@ import type { IntercomPluginProps } from "./withIntercom";
 
 export const withIntercomIOS: ConfigPlugin<IntercomPluginProps> = (
   config,
-  { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabled = false }
+  { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabledIOS = false }
 ) => {
   config = withIntercomInfoPlist(config, {
     iosPhotoUsageDescription,
@@ -13,7 +13,7 @@ export const withIntercomIOS: ConfigPlugin<IntercomPluginProps> = (
   config = withIntercomAppDelegate(config, {
     apiKey: iosApiKey as string,
     appId,
-    pushNotifications: isPushNotificationsEnabled,
+    pushNotifications: isPushNotificationsEnabledIOS,
   });
   return config;
 };

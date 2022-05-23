@@ -59,8 +59,9 @@ public class MainNotificationService extends FirebaseMessagingService {
 
 export const withIntercomAndroid: ConfigPlugin<IntercomPluginProps> = (
   config,
-  { intercomEURegion, androidApiKey, appId, isPushNotificationsEnabled = false }
+  { intercomEURegion, androidApiKey, appId }
 ) => {
+  const isPushNotificationsEnabled = false;
   config = withIntercomAndroidManifest(config, {
     EURegion: intercomEURegion,
     pushNotifications: isPushNotificationsEnabled,
