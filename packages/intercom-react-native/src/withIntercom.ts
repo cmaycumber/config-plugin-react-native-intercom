@@ -1,35 +1,35 @@
-import { ConfigPlugin, createRunOncePlugin, withPlugins } from "@expo/config-plugins";
-import { withBuildProperties } from "expo-build-properties";
-import { withIntercomIOS } from "./withIntercomIOS";
-import { withIntercomAndroid } from "./withIntercomAndroid";
+import {ConfigPlugin, createRunOncePlugin, withPlugins} from "@expo/config-plugins"
+import {withBuildProperties} from "expo-build-properties"
+import {withIntercomIOS} from "./withIntercomIOS"
+import {withIntercomAndroid} from "./withIntercomAndroid"
 
 export interface IntercomPluginPropsIOS {
   /**
    * Optional string to set for the photo usage description in intercom
    * relative to project root
    */
-  iosPhotoUsageDescription?: string;
+  iosPhotoUsageDescription?: string
   /**
    * Intercom api key
    */
-  iosApiKey?: string;
+  iosApiKey?: string
   /**
    * Enable push notifications for iOS
    */
-  isPushNotificationsEnabledIOS?: boolean;
+  isPushNotificationsEnabledIOS?: boolean
 }
 
 export interface IntercomPluginPropsAndroid {
   /** Optionally adds support for https://developers.intercom.com/installing-intercom/docs/react-native-data-hosting-region-configuration */
-  intercomEURegion?: boolean;
+  intercomEURegion?: boolean
   /**
    * Intercom app id
    */
-  androidApiKey?: string;
+  androidApiKey?: string
   /**
    * Enable push notifications for iOS
    */
-  //  isPushNotificationsEnabledAndroid?: boolean;
+  isPushNotificationsEnabledAndroid?: boolean
 }
 
 // TODO: Add in built in push support
@@ -37,23 +37,23 @@ export interface IntercomPluginProps extends IntercomPluginPropsIOS, IntercomPlu
   /**
    * The app id for your intercom app
    */
-  appId: string;
+  appId: string
 }
 
 /**
  * Apply intercom-react-native configuration for Expo SDK 42 projects.
  */
 const withIntercom: ConfigPlugin<IntercomPluginProps> = (config, props) => {
-  const { iosApiKey, androidApiKey } = props;
+  const {iosApiKey, androidApiKey} = props
 
   // Add ios plugin
   if (iosApiKey) {
-    config = withIntercomIOS(config, props);
+    config = withIntercomIOS(config, props)
   }
 
   // Add android plugin
   if (androidApiKey) {
-    config = withIntercomAndroid(config, props);
+    config = withIntercomAndroid(config, props)
   }
 
   config = withPlugins(config, [
@@ -70,11 +70,11 @@ const withIntercom: ConfigPlugin<IntercomPluginProps> = (config, props) => {
         },
       },
     ],
-  ]);
+  ])
 
   // Return the modified config.
-  return config;
-};
+  return config
+}
 
 const pkg = {
   // Prevent this plugin from being run more than once.
@@ -85,6 +85,6 @@ const pkg = {
   // Indicates that this plugin is dangerously linked to a module,
   // and might not work with the latest version of that module.
   version: "UNVERSIONED",
-};
+}
 
-export default createRunOncePlugin(withIntercom, pkg.name, pkg.version);
+export default createRunOncePlugin(withIntercom, pkg.name, pkg.version)

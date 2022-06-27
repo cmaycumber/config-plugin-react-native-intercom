@@ -47,7 +47,8 @@ The plugin needs your intercom api key so that it can communicate with the inter
         "iosApiKey": "<your-api-key>",
         "androidApiKey": "<your-api-key>",
         "appId": "<your-app-id>",
-        "isPushNotificationsEnabledIOS": "<boolean>"
+        "isPushNotificationsEnabledIOS": "<boolean>",
+        "isPushNotificationsEnabledAndroid": "<boolean>"
       }
     ]
   ]
