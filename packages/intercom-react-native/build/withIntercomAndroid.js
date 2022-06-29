@@ -8,6 +8,16 @@ const config_plugins_1 = require("@expo/config-plugins");
 const generateCode_1 = require("@expo/config-plugins/build/utils/generateCode");
 const path_1 = __importDefault(require("path"));
 const fs_1 = require("fs");
+const image_utils_1 = require("@expo/image-utils");
+const DPI_VALUES = {
+    mdpi: { folderName: 'drawable-mdpi', scale: 1 },
+    hdpi: { folderName: 'drawable-hdpi', scale: 1.5 },
+    xhdpi: { folderName: 'drawable-xhdpi', scale: 2 },
+    xxhdpi: { folderName: 'drawable-xxhdpi', scale: 3 },
+    xxxhdpi: { folderName: 'drawable-xxxhdpi', scale: 4 },
+};
+const BASELINE_PIXEL_SIZE = 24;
+const INTERCOM_PUSH_ICON_NAME = 'intercom_push_icon';
 const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } = config_plugins_1.AndroidConfig.Manifest;
 function getPackageRoot(projectRoot) {
     return path_1.default.join(projectRoot, "android", "app", "src", "main", "java");
@@ -29,7 +39,7 @@ import com.intercom.reactnative.IntercomModule;
 
 public class MainNotificationService extends FirebaseMessagingService {
 
-  @Override 
+  @Override
   public void onNewToken(String refreshedToken) {
     IntercomModule.sendTokenToIntercom(getApplication(), refreshedToken);
     super.onNewToken(refreshedToken);
@@ -45,7 +55,7 @@ public class MainNotificationService extends FirebaseMessagingService {
   }
 }`;
 }
-const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId }) => {
+const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, androidIcon }) => {
     const isPushNotificationsEnabled = false;
     config = (0, exports.withIntercomAndroidManifest)(config, {
         EURegion: intercomEURegion,
@@ -61,6 +71,9 @@ const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId })
     if (isPushNotificationsEnabled) {
         config = withIntercomMainNotificationService(config, {});
         config = withIntercomProjectBuildGradle(config, {});
+    }
+    if (androidIcon) {
+        config = withNotificationIcons(config, { androidIcon });
     }
     return config;
 };
@@ -219,4 +232,36 @@ async function setEURegionTrueAsync(config, androidManifest) {
     // value for `android:value`
     "true");
     return androidManifest;
+}
+const withNotificationIcons = (config, { androidIcon }) => {
+    return (0, config_plugins_1.withDangerousMod)(config, [
+        'android',
+        async (config) => {
+            await savePushIcon(config.modRequest.projectRoot, androidIcon);
+            return config;
+        },
+    ]);
+};
+async function savePushIcon(projectRoot, iconPath) {
+    await Promise.all(Object.values(DPI_VALUES).map(async ({ folderName, scale }) => {
+        const resourcesPath = await config_plugins_1.AndroidConfig.Paths.getResourceFolderAsync(projectRoot);
+        const dpiFolderPath = path_1.default.resolve(projectRoot, resourcesPath, folderName);
+        if (!(0, fs_1.existsSync)(dpiFolderPath)) {
+            (0, fs_1.mkdirSync)(dpiFolderPath, { recursive: true });
+        }
+        const iconSizePx = BASELINE_PIXEL_SIZE * scale;
+        try {
+            const resizedIcon = (await (0, image_utils_1.generateImageAsync)({ projectRoot, cacheType: 'android-notification' }, {
+                src: iconPath,
+                width: iconSizePx,
+                height: iconSizePx,
+                resizeMode: 'cover',
+                backgroundColor: 'transparent',
+            })).source;
+            (0, fs_1.writeFileSync)(path_1.default.resolve(dpiFolderPath, INTERCOM_PUSH_ICON_NAME + '.png'), resizedIcon);
+        }
+        catch (e) {
+            throw new Error('Encountered an issue resizing Android notification icon: ' + e);
+        }
+    }));
 }
