@@ -21,6 +21,10 @@ export interface IntercomPluginPropsAndroid {
      * Intercom app id
      */
     androidApiKey?: string;
+    /**
+     * Enable push notifications for Android
+     */
+    isPushNotificationsEnabledAndroid?: boolean;
 }
 export interface IntercomPluginProps extends IntercomPluginPropsIOS, IntercomPluginPropsAndroid {
     /**

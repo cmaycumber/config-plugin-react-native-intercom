@@ -27,9 +27,9 @@ export interface IntercomPluginPropsAndroid {
    */
   androidApiKey?: string;
   /**
-   * Enable push notifications for iOS
+   * Enable push notifications for Android
    */
-  //  isPushNotificationsEnabledAndroid?: boolean;
+   isPushNotificationsEnabledAndroid?: boolean;
 }
 
 // TODO: Add in built in push support
