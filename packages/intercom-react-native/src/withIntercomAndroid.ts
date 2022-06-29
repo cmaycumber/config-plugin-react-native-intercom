@@ -23,7 +23,6 @@ const DPI_VALUES = {
   xxxhdpi: { folderName: 'drawable-xxxhdpi', scale: 4 },
 }
 const BASELINE_PIXEL_SIZE = 24
-const INTERCOM_PUSH_ICON_NAME = 'intercom_push_icon'
 
 const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } = AndroidConfig.Manifest;
 
@@ -307,8 +306,6 @@ async function setEURegionTrueAsync(
   return androidManifest;
 }
 
-
-
 const withNotificationIcons: ConfigPlugin<{
   androidIcon: string;
 }> = (config, { androidIcon }) => {
@@ -344,7 +341,7 @@ async function savePushIcon(projectRoot: string, iconPath: string) {
             }
           )
         ).source
-        writeFileSync(path.resolve(dpiFolderPath, INTERCOM_PUSH_ICON_NAME + '.png'), resizedIcon)
+        writeFileSync(path.resolve(dpiFolderPath, 'intercom_push_icon.png'), resizedIcon)
       } catch (e) {
         throw new Error('Encountered an issue resizing Android notification icon: ' + e)
       }

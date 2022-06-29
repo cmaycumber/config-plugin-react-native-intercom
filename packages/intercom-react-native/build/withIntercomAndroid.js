@@ -17,7 +17,6 @@ const DPI_VALUES = {
     xxxhdpi: { folderName: 'drawable-xxxhdpi', scale: 4 },
 };
 const BASELINE_PIXEL_SIZE = 24;
-const INTERCOM_PUSH_ICON_NAME = 'intercom_push_icon';
 const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } = config_plugins_1.AndroidConfig.Manifest;
 function getPackageRoot(projectRoot) {
     return path_1.default.join(projectRoot, "android", "app", "src", "main", "java");
@@ -258,7 +257,7 @@ async function savePushIcon(projectRoot, iconPath) {
                 resizeMode: 'cover',
                 backgroundColor: 'transparent',
             })).source;
-            (0, fs_1.writeFileSync)(path_1.default.resolve(dpiFolderPath, INTERCOM_PUSH_ICON_NAME + '.png'), resizedIcon);
+            (0, fs_1.writeFileSync)(path_1.default.resolve(dpiFolderPath, 'intercom_push_icon.png'), resizedIcon);
         }
         catch (e) {
             throw new Error('Encountered an issue resizing Android notification icon: ' + e);
