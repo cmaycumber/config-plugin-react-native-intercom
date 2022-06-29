@@ -101,6 +101,22 @@ The plugin needs your intercom api key so that it can communicate with the inter
 
 </details>
 
+## Android push notifications
+If you want push notifications to fire when new messages are sent in a conversation, it is necesssary
+to create a push notification channel for these. Push notifications for new conversations require no additoonal setup.
+```
+useEffect(() => {
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('intercom_chat_replies_channel', {
+      name: 'Intercom Replies Channel',
+      description: 'Channel for intercom replies',
+      importance: Notifications.AndroidImportance.MAX,
+    })
+  }
+}, [])
+```
+
+
 ## Building and running
 
 You can either:
