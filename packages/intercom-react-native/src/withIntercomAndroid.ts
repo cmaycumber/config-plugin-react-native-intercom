@@ -12,7 +12,17 @@ import {
 import type { IntercomPluginProps } from "./withIntercom";
 import { mergeContents } from "@expo/config-plugins/build/utils/generateCode";
 import path from "path";
-import { promises as fs } from "fs";
+import { promises as fs, existsSync, mkdirSync, writeFileSync } from "fs";
+import { generateImageAsync } from '@expo/image-utils'
+
+const DPI_VALUES = {
+  mdpi: { folderName: 'drawable-mdpi', scale: 1 },
+  hdpi: { folderName: 'drawable-hdpi', scale: 1.5 },
+  xhdpi: { folderName: 'drawable-xhdpi', scale: 2 },
+  xxhdpi: { folderName: 'drawable-xxhdpi', scale: 3 },
+  xxxhdpi: { folderName: 'drawable-xxxhdpi', scale: 4 },
+}
+const BASELINE_PIXEL_SIZE = 24
 
 const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } = AndroidConfig.Manifest;
 
@@ -59,7 +69,7 @@ public class MainNotificationService extends ExpoFirebaseMessagingService {
 
 export const withIntercomAndroid: ConfigPlugin<IntercomPluginProps> = (
   config,
-  { intercomEURegion, androidApiKey, appId, isPushNotificationsEnabledAndroid = false }
+  { intercomEURegion, androidApiKey, appId, androidIcon, isPushNotificationsEnabledAndroid = false }
 ) => {
   config = withIntercomAndroidManifest(config, {
     EURegion: intercomEURegion,
@@ -76,6 +86,9 @@ export const withIntercomAndroid: ConfigPlugin<IntercomPluginProps> = (
   if (isPushNotificationsEnabledAndroid) {
     config = withIntercomMainNotificationService(config, {});
     config = withIntercomProjectBuildGradle(config, {});
+  }
+  if (androidIcon) {
+    config = withNotificationIcons(config, {androidIcon})
   }
   return config;
 };
@@ -290,4 +303,47 @@ async function setEURegionTrueAsync(
   );
 
   return androidManifest;
+}
+
+const withNotificationIcons: ConfigPlugin<{
+  androidIcon: string;
+}> = (config, { androidIcon }) => {
+  return withDangerousMod(config, [
+    'android',
+    async (config) => {
+      await savePushIcon(config.modRequest.projectRoot, androidIcon)
+      return config
+    },
+  ])
+}
+
+async function savePushIcon(projectRoot: string, iconPath: string) {
+  await Promise.all(
+    Object.values(DPI_VALUES).map(async ({ folderName, scale }) => {
+      const resourcesPath = await AndroidConfig.Paths.getResourceFolderAsync(projectRoot)
+      const dpiFolderPath = path.resolve(projectRoot, resourcesPath, folderName)
+      if (!existsSync(dpiFolderPath)) {
+        mkdirSync(dpiFolderPath, { recursive: true })
+      }
+      const iconSizePx = BASELINE_PIXEL_SIZE * scale
+
+      try {
+        const resizedIcon = (
+          await generateImageAsync(
+            { projectRoot, cacheType: 'android-notification' },
+            {
+              src: iconPath,
+              width: iconSizePx,
+              height: iconSizePx,
+              resizeMode: 'cover',
+              backgroundColor: 'transparent',
+            }
+          )
+        ).source
+        writeFileSync(path.resolve(dpiFolderPath, 'intercom_push_icon.png'), resizedIcon)
+      } catch (e) {
+        throw new Error('Encountered an issue resizing Android notification icon: ' + e)
+      }
+    })
+  )
 }
