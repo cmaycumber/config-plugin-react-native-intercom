@@ -32,11 +32,11 @@ async function saveFileAsync(path, content) {
 }
 function getMainNotificationService(packageName) {
     return `package ${packageName};
-import com.google.firebase.messaging.FirebaseMessagingService;
+import expo.modules.notifications.service.ExpoFirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.intercom.reactnative.IntercomModule;
 
-public class MainNotificationService extends FirebaseMessagingService {
+public class MainNotificationService extends ExpoFirebaseMessagingService {
 
   @Override
   public void onNewToken(String refreshedToken) {
@@ -54,20 +54,20 @@ public class MainNotificationService extends FirebaseMessagingService {
   }
 }`;
 }
-const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, androidIcon }) => {
-    const isPushNotificationsEnabled = false;
+
+const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, androidIcon, isPushNotificationsEnabledAndroid = false }) => {
     config = (0, exports.withIntercomAndroidManifest)(config, {
         EURegion: intercomEURegion,
-        pushNotifications: isPushNotificationsEnabled,
+        pushNotifications: isPushNotificationsEnabledAndroid,
     });
     config = (0, exports.withIntercomAppBuildGradle)(config, {
-        pushNotifications: isPushNotificationsEnabled,
+        pushNotifications: isPushNotificationsEnabledAndroid,
     });
     config = (0, exports.withIntercomMainApplication)(config, {
         appId,
         apiKey: androidApiKey,
     });
-    if (isPushNotificationsEnabled) {
+    if (isPushNotificationsEnabledAndroid) {
         config = withIntercomMainNotificationService(config, {});
         config = withIntercomProjectBuildGradle(config, {});
     }

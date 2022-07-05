@@ -44,11 +44,11 @@ async function saveFileAsync(path: string, content: string) {
 
 function getMainNotificationService(packageName: string) {
   return `package ${packageName};
-import com.google.firebase.messaging.FirebaseMessagingService;
+import expo.modules.notifications.service.ExpoFirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.intercom.reactnative.IntercomModule;
 
-public class MainNotificationService extends FirebaseMessagingService {
+public class MainNotificationService extends ExpoFirebaseMessagingService {
 
   @Override
   public void onNewToken(String refreshedToken) {
@@ -69,22 +69,21 @@ public class MainNotificationService extends FirebaseMessagingService {
 
 export const withIntercomAndroid: ConfigPlugin<IntercomPluginProps> = (
   config,
-  { intercomEURegion, androidApiKey, appId, androidIcon }
+  { intercomEURegion, androidApiKey, appId, androidIcon, isPushNotificationsEnabledAndroid = false }
 ) => {
-  const isPushNotificationsEnabled = false;
   config = withIntercomAndroidManifest(config, {
     EURegion: intercomEURegion,
-    pushNotifications: isPushNotificationsEnabled,
+    pushNotifications: isPushNotificationsEnabledAndroid,
   });
   config = withIntercomAppBuildGradle(config, {
-    pushNotifications: isPushNotificationsEnabled,
+    pushNotifications: isPushNotificationsEnabledAndroid,
   });
   config = withIntercomMainApplication(config, {
     appId,
     apiKey: androidApiKey as string,
   });
 
-  if (isPushNotificationsEnabled) {
+  if (isPushNotificationsEnabledAndroid) {
     config = withIntercomMainNotificationService(config, {});
     config = withIntercomProjectBuildGradle(config, {});
   }

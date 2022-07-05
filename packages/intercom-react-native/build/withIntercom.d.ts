@@ -22,8 +22,9 @@ export interface IntercomPluginPropsAndroid {
      */
     androidApiKey?: string;
     /**
-     * Enable push notifications for iOS
+     * Enable push notifications for Android
      */
+    isPushNotificationsEnabledAndroid?: boolean;
     /**
      * Customize the icon for intercom push notifications from the intercom default
      */
