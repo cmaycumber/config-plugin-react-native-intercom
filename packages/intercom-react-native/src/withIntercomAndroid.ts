@@ -284,9 +284,9 @@ async function setEURegionTrueAsync(
   addMetaDataItemToMainApplication(
     mainApplication,
     // value for `android:name`
-    "io.intercom.android.sdk.use.eu.server",
+    "io.intercom.android.sdk.server.region",
     // value for `android:value`
-    "true"
+    "@integer/intercom_server_region_eu"
   );
 
   return androidManifest;
