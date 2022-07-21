@@ -83,8 +83,22 @@ The plugin needs your intercom api key so that it can communicate with the inter
 </details>
 
 <details>
-<summary>Add EU Region support on Android (Follow Intercom instructions for iOS)</summary>
+<summary>Add EU Region support</summary>
 
+### On iOS Add to `app.json`
+
+```json
+{
+  "ios": {
+    "infoPlist:":{
+        "IntercomRegion": "EU"
+      }
+  }
+}
+
+```
+
+### On Android
 ```json
 {
   "plugins": [
