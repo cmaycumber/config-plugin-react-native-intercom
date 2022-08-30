@@ -54,7 +54,6 @@ public class MainNotificationService extends ExpoFirebaseMessagingService {
   }
 }`;
 }
-
 const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, androidIcon, isPushNotificationsEnabledAndroid = false }) => {
     config = (0, exports.withIntercomAndroidManifest)(config, {
         EURegion: intercomEURegion,
