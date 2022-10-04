@@ -115,6 +115,42 @@ The plugin needs your intercom api key so that it can communicate with the inter
 
 </details>
 
+<details>
+<summary>Enable push notifications</summary>
+
+### On iOS
+
+```json
+{
+  "plugins": [
+    [
+      "config-plugin-react-native-intercom",
+      {
+        //...
+        "isPushNotificationsEnabledIOS": true
+      }
+    ]
+  ]
+}
+```
+### On Android
+
+```json
+{
+  "plugins": [
+    [
+      "config-plugin-react-native-intercom",
+      {
+        //...
+        "isPushNotificationsEnabledAndroid": true,
+        "androidIcon": "<string>" //Customize the icon for intercom push notifications from the intercom default
+      }
+    ]
+  ]
+}
+```
+</details>
+
 ## Android push notifications
 If you want push notifications to fire when new messages are sent in a conversation, it is necesssary
 to create a push notification channel for these. Push notifications for new conversations require no additoonal setup.
