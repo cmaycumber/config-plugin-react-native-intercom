@@ -54,3 +54,6 @@ xcuserdata
 # Yarn
 .yarn/cache
 install-state.gz
+
+# Lerna
+lerna-debug.log
