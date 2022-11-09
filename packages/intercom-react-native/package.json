@@ -4,7 +4,7 @@
   "description": "Config plugin for intercom-react-native package",
   "main": "build/withIntercom.js",
   "types": "build/withIntercom.d.ts",
-  "homepage": "https://github.com/cmaycumber/config-plugin-react-native-intercom",
+  "homepage": "https://github.com/cmaycumber/config-plugin-react-native-intercom#README.md",
   "sideEffects": false,
   "repository": {
     "type": "git",
