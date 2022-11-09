@@ -1,6 +1,6 @@
 {
   "name": "config-plugin-react-native-intercom",
-  "version": "1.6.7",
+  "version": "1.6.0",
   "description": "Config plugin for intercom-react-native package",
   "main": "build/withIntercom.js",
   "types": "build/withIntercom.d.ts",
@@ -44,5 +44,5 @@
     "@types/semver": "^7.3.9",
     "expo-module-scripts": "^3.0.3"
   },
-  "gitHead": "ef957f0900e98db52e626c3168e3207346acf79d"
+  "gitHead": "8c3e2de293395aeec0a546b8794370125e8c3c2e"
 }

@@ -17,7 +17,7 @@
     "eslint": "^8.15.0",
     "expo-module-scripts": "^3.0.3",
     "js-yaml": "^4.1.0",
-    "lerna": "3.4.1",
+    "lerna": "^6.0.3",
     "prettier": "^2.2.1",
     "prompts": "^2.4.1",
     "remark-cli": "^9.0.0",
