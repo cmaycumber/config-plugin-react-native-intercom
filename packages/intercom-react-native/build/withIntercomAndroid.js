@@ -6,15 +6,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.withIntercomMainApplication = exports.withIntercomAppBuildGradle = exports.withIntercomAndroidManifest = exports.withIntercomAndroid = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
 const generateCode_1 = require("@expo/config-plugins/build/utils/generateCode");
-const path_1 = __importDefault(require("path"));
-const fs_1 = require("fs");
 const image_utils_1 = require("@expo/image-utils");
+const fs_1 = require("fs");
+const path_1 = __importDefault(require("path"));
 const DPI_VALUES = {
-    mdpi: { folderName: 'drawable-mdpi', scale: 1 },
-    hdpi: { folderName: 'drawable-hdpi', scale: 1.5 },
-    xhdpi: { folderName: 'drawable-xhdpi', scale: 2 },
-    xxhdpi: { folderName: 'drawable-xxhdpi', scale: 3 },
-    xxxhdpi: { folderName: 'drawable-xxxhdpi', scale: 4 },
+    mdpi: { folderName: "drawable-mdpi", scale: 1 },
+    hdpi: { folderName: "drawable-hdpi", scale: 1.5 },
+    xhdpi: { folderName: "drawable-xhdpi", scale: 2 },
+    xxhdpi: { folderName: "drawable-xxhdpi", scale: 3 },
+    xxxhdpi: { folderName: "drawable-xxxhdpi", scale: 4 },
 };
 const BASELINE_PIXEL_SIZE = 24;
 const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } = config_plugins_1.AndroidConfig.Manifest;
@@ -24,7 +24,10 @@ function getPackageRoot(projectRoot) {
 function getCurrentPackageName(projectRoot, packageRoot) {
     const mainApplication = config_plugins_1.AndroidConfig.Paths.getProjectFilePath(projectRoot, "MainApplication");
     const packagePath = path_1.default.dirname(mainApplication);
-    const packagePathParts = path_1.default.relative(packageRoot, packagePath).split(path_1.default.sep).filter(Boolean);
+    const packagePathParts = path_1.default
+        .relative(packageRoot, packagePath)
+        .split(path_1.default.sep)
+        .filter(Boolean);
     return packagePathParts.join(".");
 }
 async function saveFileAsync(path, content) {
@@ -54,7 +57,7 @@ public class MainNotificationService extends ExpoFirebaseMessagingService {
   }
 }`;
 }
-const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, androidIcon, isPushNotificationsEnabledAndroid = false }) => {
+const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, androidIcon, isPushNotificationsEnabledAndroid = false, }) => {
     config = (0, exports.withIntercomAndroidManifest)(config, {
         EURegion: intercomEURegion,
         pushNotifications: isPushNotificationsEnabledAndroid,
@@ -233,7 +236,7 @@ async function setEURegionTrueAsync(config, androidManifest) {
 }
 const withNotificationIcons = (config, { androidIcon }) => {
     return (0, config_plugins_1.withDangerousMod)(config, [
-        'android',
+        "android",
         async (config) => {
             await savePushIcon(config.modRequest.projectRoot, androidIcon);
             return config;
@@ -249,17 +252,17 @@ async function savePushIcon(projectRoot, iconPath) {
         }
         const iconSizePx = BASELINE_PIXEL_SIZE * scale;
         try {
-            const resizedIcon = (await (0, image_utils_1.generateImageAsync)({ projectRoot, cacheType: 'android-notification' }, {
+            const resizedIcon = (await (0, image_utils_1.generateImageAsync)({ projectRoot, cacheType: "android-notification" }, {
                 src: iconPath,
                 width: iconSizePx,
                 height: iconSizePx,
-                resizeMode: 'cover',
-                backgroundColor: 'transparent',
+                resizeMode: "cover",
+                backgroundColor: "transparent",
             })).source;
-            (0, fs_1.writeFileSync)(path_1.default.resolve(dpiFolderPath, 'intercom_push_icon.png'), resizedIcon);
+            (0, fs_1.writeFileSync)(path_1.default.resolve(dpiFolderPath, "intercom_push_icon.png"), resizedIcon);
         }
         catch (e) {
-            throw new Error('Encountered an issue resizing Android notification icon: ' + e);
+            throw new Error("Encountered an issue resizing Android notification icon: " + e);
         }
     }));
 }

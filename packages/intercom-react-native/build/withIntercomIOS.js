@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withIntercomAppDelegate = exports.withIntercomInfoPlist = exports.withIntercomIOS = void 0;
 const config_plugins_1 = require("@expo/config-plugins");
-const config_plugins_2 = require("@expo/config-plugins");
 const fs_1 = require("fs");
-const withIntercomIOS = (config, { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabledIOS = false }) => {
+const withIntercomIOS = (config, { iosPhotoUsageDescription, appId, iosApiKey, isPushNotificationsEnabledIOS = false, }) => {
     config = (0, exports.withIntercomInfoPlist)(config, {
         iosPhotoUsageDescription,
     });
@@ -28,13 +27,18 @@ const withIntercomInfoPlist = (config, { iosPhotoUsageDescription }) => {
 };
 exports.withIntercomInfoPlist = withIntercomInfoPlist;
 const withIntercomAppDelegate = (config, { apiKey, appId, pushNotifications }) => {
-    return (0, config_plugins_2.withDangerousMod)(config, [
+    return (0, config_plugins_1.withDangerousMod)(config, [
         "ios",
         async (config) => {
-            const fileInfo = config_plugins_2.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
+            const fileInfo = config_plugins_1.IOSConfig.Paths.getAppDelegate(config.modRequest.projectRoot);
             let contents = await fs_1.promises.readFile(fileInfo.path, "utf-8");
             if (fileInfo.language === "objcpp" || fileInfo.language === "objc") {
-                contents = modifyObjcAppDelegate({ contents, apiKey, appId, pushNotifications });
+                contents = modifyObjcAppDelegate({
+                    contents,
+                    apiKey,
+                    appId,
+                    pushNotifications,
+                });
             }
             else {
                 throw new Error(`Cannot add Intercom code to AppDelegate of language "${fileInfo.language}"`);

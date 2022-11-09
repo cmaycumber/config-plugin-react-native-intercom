@@ -1,7 +1,12 @@
-import { ConfigPlugin, createRunOncePlugin, withPlugins } from "@expo/config-plugins";
+import {
+  ConfigPlugin,
+  createRunOncePlugin,
+  withPlugins,
+} from "@expo/config-plugins";
 import { withBuildProperties } from "expo-build-properties";
-import { withIntercomIOS } from "./withIntercomIOS";
+
 import { withIntercomAndroid } from "./withIntercomAndroid";
+import { withIntercomIOS } from "./withIntercomIOS";
 
 export interface IntercomPluginPropsIOS {
   /**
@@ -29,7 +34,7 @@ export interface IntercomPluginPropsAndroid {
   /**
    * Enable push notifications for Android
    */
-   isPushNotificationsEnabledAndroid?: boolean;
+  isPushNotificationsEnabledAndroid?: boolean;
   /**
    * Customize the icon for intercom push notifications from the intercom default
    */
@@ -37,7 +42,9 @@ export interface IntercomPluginPropsAndroid {
 }
 
 // TODO: Add in built in push support
-export interface IntercomPluginProps extends IntercomPluginPropsIOS, IntercomPluginPropsAndroid {
+export interface IntercomPluginProps
+  extends IntercomPluginPropsIOS,
+    IntercomPluginPropsAndroid {
   /**
    * The app id for your intercom app
    */

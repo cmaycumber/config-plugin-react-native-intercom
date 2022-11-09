@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_plugins_1 = require("@expo/config-plugins");
 const expo_build_properties_1 = require("expo-build-properties");
-const withIntercomIOS_1 = require("./withIntercomIOS");
 const withIntercomAndroid_1 = require("./withIntercomAndroid");
+const withIntercomIOS_1 = require("./withIntercomIOS");
 /**
  * Apply intercom-react-native configuration for Expo SDK 42 projects.
  */

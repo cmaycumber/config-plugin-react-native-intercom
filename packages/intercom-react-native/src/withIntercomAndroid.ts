@@ -1,4 +1,3 @@
-import { ExpoConfig } from "@expo/config-types";
 import {
   ConfigPlugin,
   withAndroidManifest,
@@ -9,31 +8,40 @@ import {
   WarningAggregator,
   withProjectBuildGradle,
 } from "@expo/config-plugins";
-import type { IntercomPluginProps } from "./withIntercom";
 import { mergeContents } from "@expo/config-plugins/build/utils/generateCode";
-import path from "path";
+import { ExpoConfig } from "@expo/config-types";
+import { generateImageAsync } from "@expo/image-utils";
 import { promises as fs, existsSync, mkdirSync, writeFileSync } from "fs";
-import { generateImageAsync } from '@expo/image-utils'
+import path from "path";
+
+import type { IntercomPluginProps } from "./withIntercom";
 
 const DPI_VALUES = {
-  mdpi: { folderName: 'drawable-mdpi', scale: 1 },
-  hdpi: { folderName: 'drawable-hdpi', scale: 1.5 },
-  xhdpi: { folderName: 'drawable-xhdpi', scale: 2 },
-  xxhdpi: { folderName: 'drawable-xxhdpi', scale: 3 },
-  xxxhdpi: { folderName: 'drawable-xxxhdpi', scale: 4 },
-}
-const BASELINE_PIXEL_SIZE = 24
+  mdpi: { folderName: "drawable-mdpi", scale: 1 },
+  hdpi: { folderName: "drawable-hdpi", scale: 1.5 },
+  xhdpi: { folderName: "drawable-xhdpi", scale: 2 },
+  xxhdpi: { folderName: "drawable-xxhdpi", scale: 3 },
+  xxxhdpi: { folderName: "drawable-xxxhdpi", scale: 4 },
+};
+const BASELINE_PIXEL_SIZE = 24;
 
-const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } = AndroidConfig.Manifest;
+const { addMetaDataItemToMainApplication, getMainApplicationOrThrow } =
+  AndroidConfig.Manifest;
 
 function getPackageRoot(projectRoot: string) {
   return path.join(projectRoot, "android", "app", "src", "main", "java");
 }
 
 function getCurrentPackageName(projectRoot: string, packageRoot: string) {
-  const mainApplication = AndroidConfig.Paths.getProjectFilePath(projectRoot, "MainApplication");
+  const mainApplication = AndroidConfig.Paths.getProjectFilePath(
+    projectRoot,
+    "MainApplication"
+  );
   const packagePath = path.dirname(mainApplication);
-  const packagePathParts = path.relative(packageRoot, packagePath).split(path.sep).filter(Boolean);
+  const packagePathParts = path
+    .relative(packageRoot, packagePath)
+    .split(path.sep)
+    .filter(Boolean);
 
   return packagePathParts.join(".");
 }
@@ -69,7 +77,13 @@ public class MainNotificationService extends ExpoFirebaseMessagingService {
 
 export const withIntercomAndroid: ConfigPlugin<IntercomPluginProps> = (
   config,
-  { intercomEURegion, androidApiKey, appId, androidIcon, isPushNotificationsEnabledAndroid = false }
+  {
+    intercomEURegion,
+    androidApiKey,
+    appId,
+    androidIcon,
+    isPushNotificationsEnabledAndroid = false,
+  }
 ) => {
   config = withIntercomAndroidManifest(config, {
     EURegion: intercomEURegion,
@@ -88,7 +102,7 @@ export const withIntercomAndroid: ConfigPlugin<IntercomPluginProps> = (
     config = withIntercomProjectBuildGradle(config, {});
   }
   if (androidIcon) {
-    config = withNotificationIcons(config, {androidIcon})
+    config = withNotificationIcons(config, { androidIcon });
   }
   return config;
 };
@@ -139,7 +153,8 @@ export const withIntercomAndroidManifest: ConfigPlugin<{
           ...(config.modResults.manifest.application[0].receiver ?? []),
           {
             $: {
-              "android:name": "com.intercom.reactnative.RNIntercomPushBroadcastReceiver",
+              "android:name":
+                "com.intercom.reactnative.RNIntercomPushBroadcastReceiver",
               // @ts-ignore
               "tools:replace": "android:exported",
               "android:exported": "true",
@@ -153,7 +168,7 @@ export const withIntercomAndroidManifest: ConfigPlugin<{
   });
 };
 
-const withIntercomProjectBuildGradle: ConfigPlugin<{}> = (config) => {
+const withIntercomProjectBuildGradle: ConfigPlugin<object> = (config) => {
   return withProjectBuildGradle(config, async (config) => {
     const googleClasspath = `classpath 'com.google.gms:google-services:4.3.10'`;
     if (!config.modResults.contents.includes(googleClasspath)) {
@@ -168,15 +183,15 @@ const withIntercomProjectBuildGradle: ConfigPlugin<{}> = (config) => {
   });
 };
 
-export const withIntercomAppBuildGradle: ConfigPlugin<{ pushNotifications: boolean }> = (
-  config,
-  { pushNotifications }
-) => {
+export const withIntercomAppBuildGradle: ConfigPlugin<{
+  pushNotifications: boolean;
+}> = (config, { pushNotifications }) => {
   return withAppBuildGradle(config, async (config) => {
     config.modResults.contents = mergeContents({
       tag: "okhttp-urlconnection",
       src: config.modResults.contents,
-      newSrc: "    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.1'",
+      newSrc:
+        "    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.1'",
       anchor: /dependencies\s*\{/,
       offset: 1,
       comment: "//",
@@ -224,7 +239,7 @@ export const withIntercomMainApplication: ConfigPlugin<{
   });
 };
 
-const withIntercomMainNotificationService: ConfigPlugin<{}> = (config) => {
+const withIntercomMainNotificationService: ConfigPlugin<object> = (config) => {
   return withDangerousMod(config, [
     "android",
     async (config) => {
@@ -243,7 +258,10 @@ const createMainNotificationService = async (projectRoot: string) => {
   );
 
   try {
-    return await saveFileAsync(filePath, getMainNotificationService(packageName));
+    return await saveFileAsync(
+      filePath,
+      getMainNotificationService(packageName)
+    );
   } catch (e) {
     WarningAggregator.addWarningAndroid(
       "config-plugin-react-native-intercom",
@@ -272,7 +290,10 @@ const modifyMainApplication = ({
     const packageImport = `package ${packageName};`;
     // Add the import line to the top of the file
     // Replace the first line with the intercom import
-    contents = contents.replace(`${packageImport}`, `${packageImport}\n${importLine}`);
+    contents = contents.replace(
+      `${packageImport}`,
+      `${packageImport}\n${importLine}`
+    );
   }
 
   const initLine = `IntercomModule.initialize(this, "${apiKey}", "${appId}");`;
@@ -280,7 +301,10 @@ const modifyMainApplication = ({
   if (!contents.includes(initLine)) {
     const soLoaderLine = `SoLoader.init(this, /* native exopackage */ false);`;
     // Replace the line SoLoader.init(this, /* native exopackage */ false); with regex
-    contents = contents.replace(`${soLoaderLine}`, `${soLoaderLine}\n\t\t${initLine}\n`);
+    contents = contents.replace(
+      `${soLoaderLine}`,
+      `${soLoaderLine}\n\t\t${initLine}\n`
+    );
   }
 
   return contents;
@@ -309,41 +333,52 @@ const withNotificationIcons: ConfigPlugin<{
   androidIcon: string;
 }> = (config, { androidIcon }) => {
   return withDangerousMod(config, [
-    'android',
+    "android",
     async (config) => {
-      await savePushIcon(config.modRequest.projectRoot, androidIcon)
-      return config
+      await savePushIcon(config.modRequest.projectRoot, androidIcon);
+      return config;
     },
-  ])
-}
+  ]);
+};
 
 async function savePushIcon(projectRoot: string, iconPath: string) {
   await Promise.all(
     Object.values(DPI_VALUES).map(async ({ folderName, scale }) => {
-      const resourcesPath = await AndroidConfig.Paths.getResourceFolderAsync(projectRoot)
-      const dpiFolderPath = path.resolve(projectRoot, resourcesPath, folderName)
+      const resourcesPath = await AndroidConfig.Paths.getResourceFolderAsync(
+        projectRoot
+      );
+      const dpiFolderPath = path.resolve(
+        projectRoot,
+        resourcesPath,
+        folderName
+      );
       if (!existsSync(dpiFolderPath)) {
-        mkdirSync(dpiFolderPath, { recursive: true })
+        mkdirSync(dpiFolderPath, { recursive: true });
       }
-      const iconSizePx = BASELINE_PIXEL_SIZE * scale
+      const iconSizePx = BASELINE_PIXEL_SIZE * scale;
 
       try {
         const resizedIcon = (
           await generateImageAsync(
-            { projectRoot, cacheType: 'android-notification' },
+            { projectRoot, cacheType: "android-notification" },
             {
               src: iconPath,
               width: iconSizePx,
               height: iconSizePx,
-              resizeMode: 'cover',
-              backgroundColor: 'transparent',
+              resizeMode: "cover",
+              backgroundColor: "transparent",
             }
           )
-        ).source
-        writeFileSync(path.resolve(dpiFolderPath, 'intercom_push_icon.png'), resizedIcon)
+        ).source;
+        writeFileSync(
+          path.resolve(dpiFolderPath, "intercom_push_icon.png"),
+          resizedIcon
+        );
       } catch (e) {
-        throw new Error('Encountered an issue resizing Android notification icon: ' + e)
+        throw new Error(
+          "Encountered an issue resizing Android notification icon: " + e
+        );
       }
     })
-  )
+  );
 }
