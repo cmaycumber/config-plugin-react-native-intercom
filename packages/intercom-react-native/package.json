@@ -4,6 +4,7 @@
   "description": "Config plugin for intercom-react-native package",
   "main": "build/withIntercom.js",
   "types": "build/withIntercom.d.ts",
+  "homepage": "https://github.com/cmaycumber/config-plugin-react-native-intercom",
   "sideEffects": false,
   "repository": {
     "type": "git",
@@ -43,5 +44,6 @@
   "devDependencies": {
     "@types/semver": "^7.3.9",
     "expo-module-scripts": "^2.0.0"
-  }
+  },
+  "gitHead": "811de9aec10ba28cd3912a6831ad3f76651d418b"
 }
