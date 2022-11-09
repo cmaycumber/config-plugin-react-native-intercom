@@ -45,5 +45,5 @@
     "@types/semver": "^7.3.9",
     "expo-module-scripts": "^3.0.3"
   },
-  "gitHead": "ad312a8f6740cd1f3852bd8f181bdce080b57d99"
+  "gitHead": "ff845cdc32c2b87ae3f8092a2e2c97ba066f528e"
 }
