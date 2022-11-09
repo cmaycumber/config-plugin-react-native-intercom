@@ -17,8 +17,7 @@
     "lint": "expo-module lint",
     "test": "expo-module test",
     "prepare": "expo-module prepare",
-    "prepublishOnly": "expo-module prepublishOnly",
-    "expo-module": "expo-module"
+    "prepublishOnly": "expo-module prepublishOnly"
   },
   "keywords": [
     "react",
@@ -45,5 +44,5 @@
     "@types/semver": "^7.3.9",
     "expo-module-scripts": "^3.0.3"
   },
-  "gitHead": "ff845cdc32c2b87ae3f8092a2e2c97ba066f528e"
+  "gitHead": "ef957f0900e98db52e626c3168e3207346acf79d"
 }
