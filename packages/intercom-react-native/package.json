@@ -1,6 +1,6 @@
 {
   "name": "config-plugin-react-native-intercom",
-  "version": "1.6.3",
+  "version": "1.6.2",
   "description": "Config plugin for intercom-react-native package",
   "main": "build/withIntercom.js",
   "types": "build/withIntercom.d.ts",
@@ -17,7 +17,8 @@
     "lint": "expo-module lint",
     "test": "expo-module test",
     "prepare": "expo-module prepare",
-    "prepublishOnly": "expo-module prepublishOnly"
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
   },
   "keywords": [
     "react",
