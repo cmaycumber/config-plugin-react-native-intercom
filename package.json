@@ -4,7 +4,8 @@
     "example": "yarn workspace @expo/app",
     "config-plugin": "yarn workspace config-plugin-react-native-intercom",
     "start": "lerna run build --parallel -- --watch",
-    "prepare": "lerna run prepare --parallel"
+    "prepare": "lerna run prepare --parallel",
+    "publish": "lerna publish"
   },
   "workspaces": [
     "apps/*",
