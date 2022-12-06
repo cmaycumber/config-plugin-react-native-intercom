@@ -42,7 +42,7 @@ Open your `app.json` and update your `plugins` section:
   "plugins": [
     [
       "expo-build-properties",
-      { android: { compileSdkVersion: 33, targetSdkVersion: 33 } },
+      { "android": { "compileSdkVersion": 33, "targetSdkVersion": 33 } },
     ],
     "config-plugin-react-native-intercom"
   ]
