@@ -10,7 +10,7 @@ An unofficial [Expo config plugin](https://docs.expo.io/guides/config-plugins) f
 
 - App project using Expo SDK 45.
 - Installed `expo-cli@4.4.4` or later.
-- Installed `@intercom/intercom-react-native@3.0.3` or later (`@intercom/intercom-react-native@4` is not currently supported)
+- Installed `@intercom/intercom-react-native@4.0.1` or later
 
 #### Versions < 1.3
 
