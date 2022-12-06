@@ -33,16 +33,16 @@
     "preset": "expo-module-scripts"
   },
   "dependencies": {
-    "@expo/config-plugins": "^5.0.1",
-    "expo-build-properties": "^0.3.0",
-    "semver": "^7.3.5"
+    "@expo/config-plugins": "^5.0.4",
+    "expo-build-properties": "^0.4.1",
+    "semver": "^7.3.8"
   },
   "peerDependencies": {
-    "@intercom/intercom-react-native": "^3.0.3"
+    "@intercom/intercom-react-native": "^4.0.1"
   },
   "devDependencies": {
-    "@types/semver": "^7.3.9",
-    "expo-module-scripts": "^3.0.3"
+    "@types/semver": "^7.3.13",
+    "expo-module-scripts": "^3.0.4"
   },
   "gitHead": "8c3e2de293395aeec0a546b8794370125e8c3c2e"
 }
