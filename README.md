@@ -10,7 +10,8 @@ An unofficial [Expo config plugin](https://docs.expo.io/guides/config-plugins) f
 
 - App project using Expo SDK 45.
 - Installed `expo-cli@4.4.4` or later.
-- Installed `@intercom/intercom-react-native@3.0.3` or later (`@intercom/intercom-react-native@4` is not currently supported)
+- Installed `@intercom/intercom-react-native@4.0.1`
+- For Android it Intercom requires `compileSdkVersion` and `targetSdkVersion` to be set on 33 or higher. [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/) is used to set it
 
 #### Versions < 1.3
 
@@ -21,24 +22,30 @@ An unofficial [Expo config plugin](https://docs.expo.io/guides/config-plugins) f
 #### With `expo install`
 
 ```
-expo install config-plugin-react-native-intercom
+expo install config-plugin-react-native-intercom expo-build-properties
 ```
 
 #### Without `expo install`
 
 ```sh
 # using yarn
-yarn add config-plugin-react-native-intercom
+yarn add config-plugin-react-native-intercom expo-build-properties
 
 # using npm
-npm install config-plugin-react-native-intercom
+npm install config-plugin-react-native-intercom expo-build-properties
 ```
 
-Open your `app.json` and update your `plugins` section (`expo install` would do it for you):
+Open your `app.json` and update your `plugins` section:
 
 ```json
 {
-  "plugins": ["config-plugin-react-native-intercom"]
+  "plugins": [
+    [
+      "expo-build-properties",
+      { "android": { "compileSdkVersion": 33, "targetSdkVersion": 33 } },
+    ],
+    "config-plugin-react-native-intercom"
+  ]
 }
 ```
 
