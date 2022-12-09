@@ -20,7 +20,7 @@ const withIntercomInfoPlist = (config, { iosPhotoUsageDescription }) => {
         // Add on the right permissions for expo to use the photo library, this might change if we add more permissions
         if (!config.modResults.NSPhotoLibraryUsageDescription) {
             config.modResults.NSPhotoLibraryUsageDescription =
-                iosPhotoUsageDescription ?? "Upload images to support center";
+                iosPhotoUsageDescription !== null && iosPhotoUsageDescription !== void 0 ? iosPhotoUsageDescription : "Upload images to support center";
         }
         return config;
     });
