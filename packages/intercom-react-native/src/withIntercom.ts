@@ -1,9 +1,4 @@
-import {
-  ConfigPlugin,
-  createRunOncePlugin,
-  withPlugins,
-} from "@expo/config-plugins";
-import { withBuildProperties } from "expo-build-properties";
+import { ConfigPlugin, createRunOncePlugin } from "@expo/config-plugins";
 
 import { withIntercomAndroid } from "./withIntercomAndroid";
 import { withIntercomIOS } from "./withIntercomIOS";
@@ -66,22 +61,6 @@ const withIntercom: ConfigPlugin<IntercomPluginProps> = (config, props) => {
   if (androidApiKey) {
     config = withIntercomAndroid(config, props);
   }
-
-  config = withPlugins(config, [
-    [
-      withBuildProperties,
-      {
-        android: {
-          compileSdkVersion: 31,
-          targetSdkVersion: 31,
-          buildToolsVersion: "31.0.0",
-        },
-        ios: {
-          deploymentTarget: "13.0",
-        },
-      },
-    ],
-  ]);
 
   // Return the modified config.
   return config;
