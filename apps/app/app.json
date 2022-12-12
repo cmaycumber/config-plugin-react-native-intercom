@@ -30,6 +30,10 @@
     },
     "plugins": [
       [
+        "expo-build-properties",
+        { "android": { "compileSdkVersion": 33, "targetSdkVersion": 33 } }
+      ],
+      [
         "config-plugin-react-native-intercom",
         {
           "iosApiKey": "myIosApiKey",
