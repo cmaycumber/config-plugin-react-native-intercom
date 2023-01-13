@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_plugins_1 = require("@expo/config-plugins");
-const expo_build_properties_1 = require("expo-build-properties");
 const withIntercomAndroid_1 = require("./withIntercomAndroid");
 const withIntercomIOS_1 = require("./withIntercomIOS");
 /**
@@ -17,21 +16,6 @@ const withIntercom = (config, props) => {
     if (androidApiKey) {
         config = (0, withIntercomAndroid_1.withIntercomAndroid)(config, props);
     }
-    config = (0, config_plugins_1.withPlugins)(config, [
-        [
-            expo_build_properties_1.withBuildProperties,
-            {
-                android: {
-                    compileSdkVersion: 31,
-                    targetSdkVersion: 31,
-                    buildToolsVersion: "31.0.0",
-                },
-                ios: {
-                    deploymentTarget: "13.0",
-                },
-            },
-        ],
-    ]);
     // Return the modified config.
     return config;
 };

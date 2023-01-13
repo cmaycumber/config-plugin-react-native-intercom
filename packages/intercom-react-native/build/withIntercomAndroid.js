@@ -85,7 +85,6 @@ const withIntercomAndroidManifest = (config, { EURegion, pushNotifications }) =>
         "android.permission.VIBRATE",
     ]);
     return (0, config_plugins_1.withAndroidManifest)(config, async (config) => {
-        var _a, _b, _c;
         if (EURegion) {
             config.modResults = await setEURegionTrueAsync(config, config.modResults);
         }
@@ -94,9 +93,9 @@ const withIntercomAndroidManifest = (config, { EURegion, pushNotifications }) =>
                 ...config.modResults.manifest.$,
                 "xmlns:tools": "http://schemas.android.com/tools",
             };
-            if ((_a = config.modResults.manifest.application) === null || _a === void 0 ? void 0 : _a[0]) {
+            if (config.modResults.manifest.application?.[0]) {
                 config.modResults.manifest.application[0].service = [
-                    ...((_b = config.modResults.manifest.application[0].service) !== null && _b !== void 0 ? _b : []),
+                    ...(config.modResults.manifest.application[0].service ?? []),
                     {
                         $: {
                             "android:name": ".MainNotificationService",
@@ -117,7 +116,7 @@ const withIntercomAndroidManifest = (config, { EURegion, pushNotifications }) =>
                     },
                 ];
                 config.modResults.manifest.application[0].receiver = [
-                    ...((_c = config.modResults.manifest.application[0].receiver) !== null && _c !== void 0 ? _c : []),
+                    ...(config.modResults.manifest.application[0].receiver ?? []),
                     {
                         $: {
                             "android:name": "com.intercom.reactnative.RNIntercomPushBroadcastReceiver",
