@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "@expo/config-plugins": "^5.0.4",
-    "expo-build-properties": "^0.4.1",
     "semver": "^7.3.8"
   },
   "peerDependencies": {
