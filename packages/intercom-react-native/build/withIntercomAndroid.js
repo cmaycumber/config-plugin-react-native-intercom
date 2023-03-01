@@ -134,7 +134,7 @@ const withIntercomAndroidManifest = (config, { EURegion, pushNotifications }) =>
 exports.withIntercomAndroidManifest = withIntercomAndroidManifest;
 const withIntercomProjectBuildGradle = (config) => {
     return (0, config_plugins_1.withProjectBuildGradle)(config, async (config) => {
-        const googleClasspath = `classpath 'com.google.gms:google-services:4.3.10'`;
+        const googleClasspath = `classpath 'com.google.gms:google-services:4.3.15'`;
         if (!config.modResults.contents.includes(googleClasspath)) {
             const anchor = `dependencies {`;
             config.modResults.contents = config.modResults.contents.replace(`${anchor}`, `${anchor}\n\t\t${googleClasspath}`);
@@ -147,13 +147,13 @@ const withIntercomAppBuildGradle = (config, { pushNotifications }) => {
         config.modResults.contents = (0, generateCode_1.mergeContents)({
             tag: "okhttp-urlconnection",
             src: config.modResults.contents,
-            newSrc: "    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.1'",
+            newSrc: "    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.10.+'",
             anchor: /dependencies\s*\{/,
             offset: 1,
             comment: "//",
         }).contents;
         if (pushNotifications) {
-            const firebaseImp = `implementation 'com.google.firebase:firebase-messaging:20.2.+'`;
+            const firebaseImp = `implementation 'com.google.firebase:firebase-messaging:23.1.+'`;
             if (!config.modResults.contents.includes(firebaseImp)) {
                 const anchor = `implementation "com.facebook.react:react-native:+"  // From node_modules`;
                 config.modResults.contents = config.modResults.contents.replace(anchor, `${anchor}
