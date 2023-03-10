@@ -110,7 +110,7 @@ function modifyObjcAppDelegate({
     contents = contents.replace(
       /return YES;/g,
       `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${
-        pushNotifications ? registerIntercomPushCode : ""
+        pushNotifications ? null : ""
       }\n\n\treturn YES;`
     );
   }

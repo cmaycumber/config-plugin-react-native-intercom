@@ -1,7 +1,7 @@
 {
   "name": "@expo/app",
   "main": "./index.js",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "scripts": {
     "start": "expo start --dev-client",
     "ios": "expo run:ios",

@@ -1,6 +1,6 @@
 {
   "name": "config-plugin-react-native-intercom",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Config plugin for intercom-react-native package",
   "main": "build/withIntercom.js",
   "types": "build/withIntercom.d.ts",
