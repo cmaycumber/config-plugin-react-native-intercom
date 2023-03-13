@@ -170,7 +170,7 @@ export const withIntercomAndroidManifest: ConfigPlugin<{
 
 const withIntercomProjectBuildGradle: ConfigPlugin<object> = (config) => {
   return withProjectBuildGradle(config, async (config) => {
-    const googleClasspath = `classpath 'com.google.gms:google-services:4.3.10'`;
+    const googleClasspath = `classpath 'com.google.gms:google-services:4.3.15'`;
     if (!config.modResults.contents.includes(googleClasspath)) {
       const anchor = `dependencies {`;
       config.modResults.contents = config.modResults.contents.replace(
@@ -191,13 +191,13 @@ export const withIntercomAppBuildGradle: ConfigPlugin<{
       tag: "okhttp-urlconnection",
       src: config.modResults.contents,
       newSrc:
-        "    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.1'",
+        "    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.10.+'",
       anchor: /dependencies\s*\{/,
       offset: 1,
       comment: "//",
     }).contents;
     if (pushNotifications) {
-      const firebaseImp = `implementation 'com.google.firebase:firebase-messaging:20.2.+'`;
+      const firebaseImp = `implementation 'com.google.firebase:firebase-messaging:23.1.+'`;
       if (!config.modResults.contents.includes(firebaseImp)) {
         const anchor = `implementation "com.facebook.react:react-native:+"  // From node_modules`;
         config.modResults.contents = config.modResults.contents.replace(
