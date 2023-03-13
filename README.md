@@ -180,6 +180,7 @@ You can either:
 
 - use `expo prebuild` or `expo run:android`/`expo run:ios` to update your native projects,
 - use _[EAS Build](https://docs.expo.io/build/introduction/)_ to build your development client.
+  - Keep in mind that if you are using environment variables for `androidApiKey`, `iosApiKey` and `appId` in your `app.config.js`, you need to configure these secrets with `eas secret:create` or at _[Expo](https://expo.dev)_.
 
 ## Contributing
 
