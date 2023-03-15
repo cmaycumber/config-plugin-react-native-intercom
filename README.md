@@ -6,7 +6,14 @@ An unofficial [Expo config plugin](https://docs.expo.io/guides/config-plugins) f
 
 ### Prerequisites
 
-#### Versions > 1.3
+#### Versions >= 1.10
+
+- App project using Expo SDK 48.
+- Installed `expo-cli@4.4.4` or later.
+- Installed `@intercom/intercom-react-native@4.0.1`
+- For Android it Intercom requires `compileSdkVersion` and `targetSdkVersion` to be set on 33 or higher. [expo-build-properties](https://docs.expo.dev/versions/latest/sdk/build-properties/) is used to set it 
+
+#### Versions < 1.10
 
 - App project using Expo SDK 45.
 - Installed `expo-cli@4.4.4` or later.
