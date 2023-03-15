@@ -70,7 +70,7 @@ function modifyObjcAppDelegate({ contents, apiKey, appId, pushNotifications, }) 
     // Add invocation
     if (!contents.includes(initMethodInvocationBlock)) {
         // TODO: Determine if this is safe
-        contents = contents.replace(/return YES;/g, `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${pushNotifications ? registerIntercomPushCode : ""}\n\n\treturn YES;`);
+        contents = contents.replace(/return \[super application:application didFinishLaunchingWithOptions:launchOptions\];/g, `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${pushNotifications ? registerIntercomPushCode : ""}\n\n\treturn \[super application:application didFinishLaunchingWithOptions:launchOptions\];`);
     }
     if (!contents.includes(registerPushLine) && pushNotifications) {
         contents = contents.replace(registerPushAnchor, `${registerPushLine}\n\t${registerPushAnchor}`);

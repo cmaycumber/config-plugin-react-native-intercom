@@ -108,10 +108,10 @@ function modifyObjcAppDelegate({
   if (!contents.includes(initMethodInvocationBlock)) {
     // TODO: Determine if this is safe
     contents = contents.replace(
-      /return YES;/g,
+      /return \[super application:application didFinishLaunchingWithOptions:launchOptions\];/g,
       `${initMethodInvocationBlock}@"${apiKey}" withAppId:@"${appId}"];\n\n${
         pushNotifications ? registerIntercomPushCode : ""
-      }\n\n\treturn YES;`
+      }\n\n\treturn \[super application:application didFinishLaunchingWithOptions:launchOptions\];`
     );
   }
 
