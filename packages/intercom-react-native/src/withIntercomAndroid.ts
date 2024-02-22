@@ -200,11 +200,21 @@ export const withIntercomAppBuildGradle: ConfigPlugin<{
       const firebaseImp = `implementation 'com.google.firebase:firebase-messaging:23.1.+'`;
       if (!config.modResults.contents.includes(firebaseImp)) {
         const anchor = `implementation "com.facebook.react:react-native:+"  // From node_modules`;
-        config.modResults.contents = config.modResults.contents.replace(
-          anchor,
-          `${anchor}
-      ${firebaseImp}`
-        );
+        // In RN 0.71 and beyond, React Native Gradle Plugin is used, so import of firebase has to be adapted
+        if (config.modResults.contents.includes(anchor)) {
+          config.modResults.contents = config.modResults.contents.replace(
+              anchor,
+              `${anchor}
+        ${firebaseImp}`
+          );
+        } else {
+          const anchorForReactNative071 = `implementation("com.facebook.react:react-android")`;
+          config.modResults.contents = config.modResults.contents.replace(
+              anchorForReactNative071,
+              `${anchorForReactNative071}
+        ${firebaseImp}`
+          );
+        }
       }
 
       const applyPlugin = `apply plugin: 'com.google.gms.google-services'`;
